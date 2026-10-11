@@ -5,6 +5,9 @@ services:
     env_file: .env
     environment:
       DOCGEN_GEOMETRY: ${DOCGEN_GEOMETRY:-1600x900}
+      # where finished outputs go, and the CDN in front of that bucket; a parameter of the same name under /docgen/ overrides these
+      DOCGEN_OUTPUT_BUCKET: ${DOCGEN_OUTPUT_BUCKET:-storystudio-unified-storage-prod}
+      DOCGEN_OUTPUT_BASE_URL: ${DOCGEN_OUTPUT_BASE_URL:-https://cdn-v2.ai-storystudio.com}
     ports:
       - "8080:8080"             # API. The security group admits only CloudFront; the API also checks the origin header.
       - "127.0.0.1:6080:6080"   # desktop (noVNC). Reach it with SSM port forwarding, never publicly.

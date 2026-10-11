@@ -123,6 +123,7 @@ Do not restart the service while a job is running: the job is lost and reported 
 ## 8. Other changes you might need
 
 - **A new image.** Start a build (`aws codebuild start-build --project-name docgen-image`). The instance pulls `latest` at every boot, or immediately with `sudo systemctl restart docgen.service`.
+- **Changed deployment files** (`deploy/docker-compose.yml`, the systemd units, the boot scripts). These are copied to the instance only at first boot. After changing them in the repository, run `sudo bash /opt/docgen/src/deploy/setup-instance.sh` in a shell on the instance when no job is running; it fetches the repository again, reinstalls the files and restarts the service.
 - **A changed API key or secret.** Update the parameter under `/docgen/` in Parameter Store, then restart the service or the instance; the values are read at start. If you change `/docgen/DOCGEN_ORIGIN_SECRET`, also change the `X-Origin-Verify` origin header on CloudFront distribution `E3RSXC7W2L5H0P`, or every call returns 403.
 - **A new desktop password.** Change `/docgen/VNC_PASSWORD` and restart the service. Only the first 8 characters are used.
 - **The orchestrator's address changed.** Edit the address list in the CloudFront function `docgen-allow-orchestrator` and publish it.

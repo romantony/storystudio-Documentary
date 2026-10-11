@@ -52,7 +52,7 @@ aws ssm get-parameter --name /docgen/DOCGEN_API_TOKEN --with-decryption --query 
 5. Send the job             POST /v1/documentaries -> 202, store job_id, state = running
 6. Follow it                webhooks update the row; poll GET /v1/documentaries/{job_id} as a fallback
 7. Checkpoints              on checkpoint.awaiting_input, show the files to a reviewer, then POST .../respond
-8. Finish                   on job.succeeded: download or record the outputs. On job.failed: store the error.
+8. Finish                   on job.succeeded: store the output URLs. On job.failed: store the error.
 9. Next job or stop         if the queue is empty, ec2:StopInstances; otherwise go to step 5
 ```
 
@@ -170,7 +170,7 @@ Only `request_id`, `topic`, `synopsis` and `callback.url` are required. Everythi
 | `review_mode` | `checkpoints` (default) or `auto` | `auto` runs to the end without pausing |
 | `limits.max_runtime_minutes` | 30 to 300, default 150 | Counted from acceptance, including time spent waiting at checkpoints. The job fails with `timeout` when it is exceeded. |
 | `limits.max_llm_turns` | 20 to 2,000, default 400 | |
-| `output.prefix` | default `docgen/<request_id>/` | Key prefix in the output bucket, when one is configured |
+| `output.prefix` | default `docgen/<request_id>/` | Key prefix in the output bucket, and so the path part of the public URLs. Must start with `docgen/`; the instance may not write elsewhere in the bucket. |
 | `callback.url` | must start with `https://` | Where webhooks are sent |
 
 Response, 202:
@@ -353,22 +353,37 @@ Optional on any of them: `at` (seconds after the scene starts, default 0.8), `se
 
 ## 8. Collecting the outputs
 
-On `job.succeeded`, `status.outputs` lists the finished files:
+Finished outputs are uploaded to S3 and served through the CDN. On `job.succeeded`, every entry in `status.outputs` carries a public `url`:
 
 ```json
 [
-  {"kind": "long_video", "path": "out/the-treaty-of-versailles.mp4", "bytes": 184220331},
-  {"kind": "short", "path": "shorts/a_spark/out/a_spark.mp4", "bytes": 21877002},
-  {"kind": "thumbnail", "path": "thumb/thumbnail.jpg", "bytes": 412004},
-  {"kind": "metadata", "path": "out/youtube_metadata.md", "bytes": 6120},
-  {"kind": "credits", "path": "out/credits.md", "bytes": 2210}
+  {"kind": "long_video", "path": "out/the-treaty-of-versailles.mp4", "bytes": 184220331,
+   "bucket": "storystudio-unified-storage-prod", "key": "docgen/qm-2026-10-12-0001/out/the-treaty-of-versailles.mp4",
+   "url": "https://cdn-v2.ai-storystudio.com/docgen/qm-2026-10-12-0001/out/the-treaty-of-versailles.mp4"},
+  {"kind": "short", "path": "shorts/a_spark/out/a_spark.mp4", "bytes": 21877002,
+   "bucket": "storystudio-unified-storage-prod", "key": "docgen/qm-2026-10-12-0001/shorts/a_spark/out/a_spark.mp4",
+   "url": "https://cdn-v2.ai-storystudio.com/docgen/qm-2026-10-12-0001/shorts/a_spark/out/a_spark.mp4"},
+  {"kind": "thumbnail", "path": "thumb/thumbnail.jpg", "bytes": 412004, "bucket": "...", "key": "...", "url": "..."},
+  {"kind": "metadata", "path": "out/youtube_metadata.md", "bytes": 6120, "bucket": "...", "key": "...", "url": "..."}
 ]
 ```
 
-The `kind` names are written by the producing run and are not a fixed list; `path` is always relative to the job's run folder.
+| `kind` | What it is | How many |
+|---|---|---|
+| `long_video` | The 16:9 video | 1 |
+| `short` | A 9:16 Short; the Short's id is in the path (`a_spark`, `b_myth`, `c_matters`) | up to 3 |
+| `thumbnail` | Thumbnail image for the long video | 1 |
+| `metadata` | Title, description, chapters and tags for the long video | 1 |
+| `shorts_metadata` | Titles and descriptions for the Shorts | 1 |
+| `credits` | Image credits and licences | 1 |
 
-- **No output bucket is configured yet.** The files stay on the instance, and the job carries the warning "Outputs were not uploaded". Download each one with `GET /v1/documentaries/{job_id}/files/<path>` **before stopping the instance**. Run folders survive a stop, so a missed download can be recovered by starting the instance again.
-- When a bucket is configured, each entry also has `bucket` and `key`, and the orchestrator can read the files from there instead.
+- **URL pattern:** `https://cdn-v2.ai-storystudio.com/<output.prefix><path>`. With the default prefix that is `https://cdn-v2.ai-storystudio.com/docgen/<request_id>/<path>`. Do not build URLs yourself; read `url` from the status, because the file name of the long video is chosen during the job.
+- **The URLs are public.** Anyone who has one can open it, with no token, and it works whether the instance is running or stopped. Treat a URL as published the moment the job reports it.
+- **Only finished outputs are uploaded.** Scripts, generated images, archive photographs, narration audio and intermediate files stay on the instance and can be fetched with `GET /v1/documentaries/{job_id}/files/<path>` while the instance is running.
+- **Store `outputs` in `docgen_jobs.outputs`** when the final event arrives. The orchestrator does not need to download anything before stopping the instance.
+- **When an upload fails,** the job still finishes, the affected entry has no `url`, and `warnings` says which file was not uploaded. Fetch that file through the `files` endpoint before stopping the instance.
+- **With checkpoints on,** the upload happens before `cp_final`, so the reviewer can open the URLs from `status.outputs` while deciding. An aborted job leaves its uploaded files in the bucket.
+- **Disk on the instance:** full run folders are kept for the three most recent finished jobs. Older ones lose their media and working files when a new job starts (their status stays available through the API). A succeeded job is only cleaned up once all its outputs are uploaded.
 
 ## 9. Tables on the VPS
 
@@ -429,5 +444,5 @@ aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
 - **The access key** for `docgen-orchestrator` (section 2) has not been created.
 - **If the orchestrator's address changes,** edit the list in the CloudFront function `docgen-allow-orchestrator` and publish it; until then every call gets 403.
-- **Output bucket** not chosen; outputs are downloaded through the API for now.
+- **The upload has not been run by a real job on the instance.** The upload step and the CDN were tested from a development machine; the instance's permission to write to the bucket is in place but unexercised.
 - **A call through the public URL after a stop and start** has not been checked from the orchestrator. On the instance itself the service came back ready after a restart.

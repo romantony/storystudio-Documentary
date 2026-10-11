@@ -2,7 +2,8 @@
 Contract: docs/DOCKER_SERVICE_DESIGN.md section 4. Status comes from <run>/status.json, which the toolkit writes.
 
 Env: DOCGEN_API_TOKEN (required), DOCGEN_CALLBACK_SECRET, DOCGEN_RUNS_DIR (/data/runs), DOCGEN_RUNNER (claude|mock),
-     DOCGEN_IMAGE, DOCGEN_ORIGIN_SECRET (CloudFront origin header), DOCGEN_PROMPT (/app/prompts/produce.md), DOCGEN_CLAUDE_FLAGS, DOCGEN_HEARTBEAT_S (60)"""
+     DOCGEN_IMAGE, DOCGEN_ORIGIN_SECRET (CloudFront origin header), DOCGEN_PROMPT (/app/prompts/produce.md), DOCGEN_CLAUDE_FLAGS, DOCGEN_HEARTBEAT_S (60),
+     DOCGEN_KEEP_RUNS (3: full run folders kept for the newest finished jobs)"""
 import hashlib, hmac, json, os, queue, re, shlex, shutil, signal, subprocess, sys, threading, time, urllib.request, uuid
 from typing import List, Literal, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
@@ -22,6 +23,7 @@ HEARTBEAT = float(os.environ.get("DOCGEN_HEARTBEAT_S", "60"))
 CLAUDE_FLAGS = os.environ.get("DOCGEN_CLAUDE_FLAGS", "--permission-mode acceptEdits --allowedTools Bash Read Write Edit Glob Grep mcp__storyblocks")
 RETRY = [float(x) for x in os.environ.get("DOCGEN_WEBHOOK_RETRY_S", "5,15,60,180,300").split(",")]
 TERMINAL = ("succeeded", "failed", "cancelled")
+KEEP_RUNS = int(os.environ.get("DOCGEN_KEEP_RUNS", "3"))
 BOOT = time.time(); LAST_CALL = [time.time()]
 os.makedirs(RUNS, exist_ok=True)
 
@@ -43,7 +45,7 @@ class Visuals(BaseModel):
 class Limits(BaseModel):
     max_runtime_minutes: int = Field(150, ge=30, le=300); max_llm_turns: int = Field(400, ge=20, le=2000)
 class Output(BaseModel):
-    prefix: Optional[str] = None
+    prefix: Optional[str] = Field(None, max_length=200, pattern=r"^docgen/[A-Za-z0-9_\-./]*$")   # the instance role can only write under docgen/
 class Callback(BaseModel):
     url: str
     @field_validator("url")
@@ -85,6 +87,19 @@ def public(j):
            "error": st.get("error") or a.get("error"), "created_at": job.get("created_at"), "stage_started_at": a.get("stage_started_at"), "updated_at": st.get("updated_at")}
     if out["state"] == "succeeded": out["progress"] = 1.0
     return out
+
+def prune(skip=None):
+    """Free disk when a new job starts. Finished jobs beyond the newest KEEP_RUNS lose their media and working files; the small
+    status files stay, so the job can still be queried. A succeeded job is only pruned once all its outputs are uploaded."""
+    done = sorted((jread(j, "job.json", {}).get("created_at", ""), j) for j in index().values()
+                  if j != skip and jread(j, "state.json", {}).get("state") in TERMINAL)
+    for _, j in done[:max(len(done) - KEEP_RUNS, 0)]:
+        outs = S.read(os.path.join(jdir(j), "status.json")).get("outputs", [])
+        if jread(j, "state.json", {}).get("state") == "succeeded" and not (outs and all(o.get("key") for o in outs)): continue
+        for name in os.listdir(jdir(j)):
+            p = os.path.join(jdir(j), name)
+            if os.path.isdir(p): shutil.rmtree(p, ignore_errors=True)
+            elif not name.endswith((".json", ".jsonl")): os.remove(p)
 
 # ---------- webhooks (section 4.5): signed, at-least-once, retried, never block the job ----------
 HOOKS: "queue.Queue" = queue.Queue()
@@ -242,6 +257,7 @@ def create(req: Req, _=Depends(auth)):
         S.update(os.path.join(jdir(j), "status.json"), stage="setup", message="Job accepted.")
         idx[req.request_id] = j; jwrite("", "index.json", idx)
     emit(j, "job.accepted")
+    threading.Thread(target=prune, args=(j,), daemon=True).start()
     spawn(j, start_prompt(r)); threading.Thread(target=watch, args=(j,), daemon=True).start()
     return JSONResponse({"job_id": j, "request_id": req.request_id, "state": "running", "status_url": f"/v1/documentaries/{j}"}, status_code=202)
 

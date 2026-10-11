@@ -20,4 +20,4 @@ systemctl daemon-reload
 systemctl enable --now docker
 systemctl enable docgen.service docgen-deadman.timer
 systemctl start docgen-deadman.timer
-systemctl start docgen.service
+systemctl restart docgen.service

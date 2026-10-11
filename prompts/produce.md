@@ -28,7 +28,7 @@ The Storyblocks MCP tools (`mcp__storyblocks__*`) search and license stock foota
 
 ## Reporting
 
-Call `python3 -m docgen status --stage <stage> --message "<one plain sentence>"` when you start each stage, and again with a new message when something worth knowing happens inside a long stage. Stages, in order: `setup`, `script`, `assets_queued`, `assets_ready`, `narration`, `timings`, `build_long`, `build_shorts`, `metadata`, `upload_outputs`. Use `--next "<step>"` (repeatable) to say what comes next, `--warn "<text>"` for anything the reviewer must know, `--output kind=path` for each finished file, and `--cost name=count` for paid generations (for example `--cost infinitetalk_clips=3`).
+Call `python3 -m docgen status --stage <stage> --message "<one plain sentence>"` when you start each stage, and again with a new message when something worth knowing happens inside a long stage. Stages, in order: `setup`, `script`, `assets_queued`, `assets_ready`, `narration`, `timings`, `build_long`, `build_shorts`, `metadata`, `upload_outputs`. Use `--next "<step>"` (repeatable) to say what comes next, `--warn "<text>"` for anything the reviewer must know, `--output kind=path` for each finished file (kinds: `long_video`, `short`, `thumbnail`, `metadata`, `shorts_metadata`, `credits`), and `--cost name=count` for paid generations (for example `--cost infinitetalk_clips=3`).
 
 Write messages for someone who has not seen this session: say what was produced and in what quantity ("Long script written: 29 scenes, 1,160 words"), and say plainly when something is weak or failed.
 
@@ -61,7 +61,7 @@ When the job is complete and any final checkpoint is approved, finish with `stat
 
 **Build.** Run `assemble --run`, then `tts`, `timings` and `short <id> --run` for each Short. Afterwards make frame sheets with `sheet --video` and look at them. Check that captions do not cover a speaker's face, that overlays are spelled correctly and do not hide a face or collide with captions, that no scene is black or shows the wrong picture, and that Shorts do not hold one image for most of their length. Fix and rebuild what is wrong; existing segments are reused, so a rebuild is cheap.
 
-**Metadata.** Write `meta.json` and run `metadata`. Chapter times and credits are computed for you. The description must say what is AI-generated, and must name any dramatised character as invented. Then `card`, `thumb` (read the thumbnail to confirm the text is spelled correctly), and `upload --prefix <output.prefix>`.
+**Metadata.** Write `meta.json` and run `metadata`. Chapter times and credits are computed for you. The description must say what is AI-generated, and must name any dramatised character as invented. Then `card`, `thumb` (read the thumbnail to confirm the text is spelled correctly), and `upload --prefix <output.prefix>`. Register every finished file with `status --output` before uploading: only registered files are uploaded, and each one gets a public `url` in the status. If the upload reports a failure, try it once more, and if it still fails say so in a warning.
 
 ## Things you cannot do, and must say
 
