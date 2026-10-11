@@ -8,6 +8,8 @@ Wants=network-online.target
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/docgen
+# Docker creates a missing working directory (/data/runs) as root on the bind mount; create it first, owned by the container user
+ExecStartPre=/bin/bash -c 'mkdir -p /data/docgen/data/runs /data/docgen/data/claude /data/docgen/home && chown 1000:1000 /data/docgen/data /data/docgen/data/runs /data/docgen/data/claude /data/docgen/home'
 ExecStartPre=-/opt/docgen/fetch-env.sh
 ExecStartPre=/bin/bash -c 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(grep ^DOCGEN_IMAGE_URI= .env | cut -d= -f2 | cut -d/ -f1)'
 ExecStartPre=-/usr/bin/docker compose pull
