@@ -438,7 +438,19 @@ curl -s -H "Authorization: Bearer $TOKEN" $BASE/v1/documentaries/dg_xxxxxxxxxxxx
 aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 ```
 
-## 11. Not in place yet
+## 11. Notes for the QM Orchestrator codebase
+
+Observations from reading `quartermaster/orchestrator` on 2026-10-11, before any integration code was written. Nothing in that repository was changed.
+
+- **The address matches.** `orchestrator.ai-storystudio.com` resolves to `129.121.78.38`, the address the doc-gen URL admits.
+- **AWS credentials.** The orchestrator container already receives one AWS credential (`AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`, used for the Lambda and Step Functions calls through the SDK's default chain). Two ways to add start and stop for the instance: attach the policy from section 2 to that existing IAM user, or pass the `docgen-orchestrator` user's key to the EC2 client explicitly under separate variable names. The second keeps the permissions apart; the first needs no new secret on the VPS.
+- **EC2 SDK.** `@aws-sdk/client-ec2` is not a dependency yet (`client-lambda`, `client-s3` and `client-sfn` are).
+- **Config is a two-part change.** A new key in `src/config.ts` does nothing until `deploy/docker-compose.yml` forwards it to the container. The keys this integration needs: the base URL, the API token, the callback secret, the instance id and region.
+- **Next migration number** is `024`; migrations need a `-- @DOWN` section. The tables in section 9 are a starting point and should follow that repository's conventions.
+- **Webhook receiver.** The callback URL must be an `https://` route on `orchestrator.ai-storystudio.com`; verify the signature over the raw body, which in Fastify means reading the body unparsed for that route.
+- **Existing auth tokens.** `ORCH_INGEST_TOKEN` guards request intake and `ORCH_ADMIN_TOKEN` guards operator routes; a route for answering checkpoints belongs with the second.
+
+## 12. Not in place yet
 
 - **Overlays have not been produced by a real job.** The rendering and placement are tested with hand-written scripts; how well the producing run chooses and words them is not yet known.
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
