@@ -116,7 +116,7 @@ Every error has the same shape:
 ```
 
 - `ready` is true when every key is `set`, at least 5 GB of disk is free, and `storyblocks_mcp` is `connected`.
-- `storyblocks_mcp` can be `connected`, `needs_login`, `not_configured` or `unknown`. Anything other than `connected` needs a person to sign in on the instance desktop; the orchestrator cannot fix it. As of 2026-10-11 the sign-in has not been done, so `ready` is false.
+- `storyblocks_mcp` can be `connected`, `needs_login`, `not_configured` or `unknown`. Anything other than `connected` needs a person to sign in on the instance desktop; the orchestrator cannot fix it. The sign-in was done on 2026-10-11 and survives a stop and start; the steps for repeating it are in `INSTANCE_ACCESS.md`.
 - A request with `visuals.stock: false` is accepted even when Storyblocks is not connected.
 - The Storyblocks check can take longer than CloudFront's 30 second limit the first time after a boot. A 504 on the first health call is not a failure; call again.
 - The checks confirm that keys are present, not that they are valid. An invalid key shows up as a failed job.
@@ -425,10 +425,9 @@ aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 
 ## 11. Not in place yet
 
-- **Storyblocks sign-in** on the instance desktop. Until it is done, health reports `ready: false` and only requests with `visuals.stock: false` are accepted.
 - **Overlays have not been produced by a real job.** The rendering and placement are tested with hand-written scripts; how well the producing run chooses and words them is not yet known.
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
 - **The access key** for `docgen-orchestrator` (section 2) has not been created.
 - **If the orchestrator's address changes,** edit the list in the CloudFront function `docgen-allow-orchestrator` and publish it; until then every call gets 403.
 - **Output bucket** not chosen; outputs are downloaded through the API for now.
-- **Restart behaviour of the CloudFront connection** after a stop and start has not been tested.
+- **A call through the public URL after a stop and start** has not been checked from the orchestrator. On the instance itself the service came back ready after a restart.
