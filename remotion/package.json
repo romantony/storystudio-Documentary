@@ -1,0 +1,18 @@
+{
+  "name": "docgen-overlays",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Text overlay templates for docgen, rendered by Remotion to transparent clips",
+  "scripts": {
+    "bundle": "remotion bundle src/index.ts --out-dir bundle",
+    "studio": "remotion studio src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "@types/react": "19.3.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.534",
+    "typescript": "7.0.2"
+  }
+}

@@ -19,6 +19,7 @@ Everything is run from the run folder with `python3 -m docgen <command>`. Each c
 | `assemble` | Build the long video from `script/script.json`. |
 | `short` | Build one Short from `shorts/<id>/script.json`. |
 | `card`, `thumb` | End card and thumbnail. |
+| `overlay` | Animated text over a scene, an image or a video (Remotion). Normally requested in the script; see "Text overlays". |
 | `metadata` | Write the metadata and credits files from a `meta.json` you write. |
 | `sheet` | Contact sheets of images or video frames, so you can look at them with the Read tool. |
 | `upload` | Copy finished outputs to the output bucket. |
@@ -54,9 +55,11 @@ When the job is complete and any final checkpoint is approved, finish with `stat
 
 **Look at every image before using it.** Archive search returns wrong pictures often: a 1909 parade came back for "plantation", a 2002 salvage photo for an 1862 warship. Open `build/archive_sheet.jpg` and the generated images with the Read tool, replace wrong ones by exact title, and regenerate images with anachronisms such as wrong-era uniforms. When `visuals.allow_graphic_archive` is false, do not use photographs that show the dead.
 
+**Text overlays.** A scene or Short segment can carry an `overlay` entry, which the builders render and place: `lower_third` (a person's name and role), `stamp` (place and date), `title` (chapter heading), `quote` (a real quotation with its source) and `stat` (one number with a label). The format is in `/app/docgen/overlay.py`. Use them sparingly: a name the first time a person appears, a place and date when the story moves, one key number, a quotation that is on screen while it is spoken. Aim for no more than one scene in four, and at most one or two per Short. Keep the text short (a name, four or five words of label, a quotation under fifteen words), because captions are on screen at the same time. Overlay text is a factual claim like any other: only real quotations go in `quote`, and a scene with a `stat` or `quote` overlay is a `verify` scene. Each overlay adds about half a minute to the build.
+
 **Narration and timings.** Send the TTS plain text only. A style instruction in front of the text gets read aloud. A talking scene uses the same voice file its clip was made from (`"voice": "asset:<id>"`), and a character clip that speaks uses its own audio (`"voice": "clip"`).
 
-**Build.** Run `assemble --run`, then `tts`, `timings` and `short <id> --run` for each Short. Afterwards make frame sheets with `sheet --video` and look at them. Check that captions do not cover a speaker's face, that no scene is black or shows the wrong picture, and that Shorts do not hold one image for most of their length. Fix and rebuild what is wrong; existing segments are reused, so a rebuild is cheap.
+**Build.** Run `assemble --run`, then `tts`, `timings` and `short <id> --run` for each Short. Afterwards make frame sheets with `sheet --video` and look at them. Check that captions do not cover a speaker's face, that overlays are spelled correctly and do not hide a face or collide with captions, that no scene is black or shows the wrong picture, and that Shorts do not hold one image for most of their length. Fix and rebuild what is wrong; existing segments are reused, so a rebuild is cheap.
 
 **Metadata.** Write `meta.json` and run `metadata`. Chapter times and credits are computed for you. The description must say what is AI-generated, and must name any dramatised character as invented. Then `card`, `thumb` (read the thumbnail to confirm the text is spelled correctly), and `upload --prefix <output.prefix>`.
 

@@ -13,7 +13,7 @@ phases:
   build:
     commands:
       - docker build --build-arg GIT_SHA=$TAG -t $REGISTRY/$REPO:$TAG -t $REGISTRY/$REPO:latest .
-      - docker run --rm --entrypoint bash $REGISTRY/$REPO:$TAG -c "uname -m && ffmpeg -version | head -1 && firefox --version && claude --version && python3 -m docgen 2>&1 | head -1"
+      - docker run --rm --entrypoint bash $REGISTRY/$REPO:$TAG -c "uname -m && ffmpeg -version | head -1 && firefox --version && claude --version && python3 -m docgen 2>&1 | head -1 && cd /tmp && python3 -m docgen overlay --type stamp --text Overlay-test --seconds 2 --out /tmp/t.mov && ffprobe -v error -show_entries stream=codec_name,pix_fmt,nb_frames -of csv=p=0 /tmp/t.mov"
   post_build:
     commands:
       - docker push $REGISTRY/$REPO:$TAG

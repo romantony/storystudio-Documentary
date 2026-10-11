@@ -1,5 +1,9 @@
-.venv
 .git
-tests
+.venv
+**/node_modules
+remotion/bundle
 **/__pycache__
+episodes
+docs
+tests
 .env

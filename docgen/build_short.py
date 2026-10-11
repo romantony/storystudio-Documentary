@@ -4,9 +4,11 @@ python3 -m docgen short <id> [--run]
 script.json: {"title": "...", "bgm": "<path>", "card_bg": "<image path>", "segments": [{"text": "...", "image": "<asset id or path>", "fx": 0.5, "clip": "<optional clip>"}],
               "intro": {"video", "audio", "text"} (optional talking clip before the narration), "outro": {"video", "audio", "text"} (optional, after it),
               "sfx": [{"file", "segment" | "at", "volume"}]}
+A segment may carry "overlay": animated text over it (name, date, quote, number); see docgen/overlay.py.
 fx is the horizontal focus (0 to 1) used when a wide image is cropped to portrait. Captions: at most 3 words, centred, current word in gold."""
 import base64, difflib, json, os, re, subprocess, sys
 from .common import ASSETS, find_image
+from . import overlay
 W, H, FPS = 1080, 1920, 30
 CARD_S = 2.5
 
@@ -138,6 +140,9 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 """
     open(f"{D}/build/caps.ass", "w").write(hdr + "\n".join(ev) + "\n")
     full = total + OUTL + CARD_S
+    # text overlays go in the upper part of the frame: captions are centred and the Shorts interface covers the bottom
+    placed = [x for i, (sg, a, b) in enumerate(zip(sc["segments"], starts, ends))
+              for x in overlay.place(sg.get("overlay"), a, b - a, W, H, FPS, "top", f"{D}/build/overlays", f"short {sid} segment {i}")]
     bgm = sc.get("bgm") or f"{ASSETS}/bgm_{sid[0]}.mp3"; sfx = list(sc.get("sfx", []))
     sfx += [{"file": sg["clip"], "at": starts[i], "volume": 0.6} for i, sg in enumerate(sc["segments"]) if sg.get("clip")]
     ins = f"-i $D/build/captioned.mp4 -i $D/build/voicefull.wav -stream_loop -1 -i {bgm} " + " ".join(f"-i {x['file']}" for x in sfx)
@@ -156,7 +161,7 @@ cd "$(dirname "$0")/../../.."
 D={D}
 xargs -d '\\n' -P 4 -I{{}} bash -c '{{}}' < $D/build/seg_cmds.txt
 ffmpeg -y -loglevel error -f concat -safe 0 -i $D/build/list.txt -c copy $D/build/base.mp4
-ffmpeg -y -loglevel error -i $D/build/base.mp4 -vf "ass=$D/build/caps.ass" -c:v libx264 -crf 20 -preset veryfast -pix_fmt yuv420p $D/build/captioned.mp4
+{overlay.caption_cmd("$D/build/base.mp4", "$D/build/caps.ass", "$D/build/captioned.mp4", placed, audio=False)}
 {vo}
 ffmpeg -y -loglevel error {ins} -filter_complex \\
  "{vf}" \\

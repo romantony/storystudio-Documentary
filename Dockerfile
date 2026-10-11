@@ -10,6 +10,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
       xfce4 xfce4-terminal dbus-x11 tigervnc-standalone-server tigervnc-tools novnc websockify \
       ffmpeg python3 python3-pip python3-pil git curl ca-certificates gnupg supervisor sudo \
       fonts-dejavu-core fonts-noto-color-emoji xdg-utils nano less jq unzip procps \
+      libnss3 libdbus-1-3 libatk1.0-0t64 libatk-bridge2.0-0t64 libgbm1 libasound2t64 libxrandr2 libxkbcommon0 \
+      libxfixes3 libxcomposite1 libxdamage1 libpango-1.0-0 libcairo2 libcups2t64 \
  && rm -rf /var/lib/apt/lists/*
 
 # Firefox from Mozilla's apt repository (Ubuntu's own package is a snap, which does not run in a container)
@@ -40,12 +42,17 @@ RUN userdel -r ubuntu 2>/dev/null || true; useradd -m -u 1000 -s /bin/bash docge
 COPY --chown=docgen:docgen docgen/ /app/docgen/
 COPY --chown=docgen:docgen api/ /app/api/
 COPY --chown=docgen:docgen prompts/ /app/prompts/
+COPY --chown=docgen:docgen remotion/ /app/remotion/
 COPY deploy/supervisord.conf /etc/docgen/supervisord.conf
 COPY deploy/entrypoint.sh /usr/local/bin/docgen-entrypoint
 COPY deploy/start-desktop.sh /usr/local/bin/docgen-start-desktop
 RUN chmod +x /usr/local/bin/docgen-entrypoint /usr/local/bin/docgen-start-desktop
 
 USER docgen
+# Remotion renders the text overlays (docgen overlay). Install its packages and headless browser, and bundle the
+# templates now so a render does not have to. The libraries it needs are in the first apt layer.
+RUN cd /app/remotion && npm ci --no-audit --no-fund && npx remotion browser ensure \
+ && npx remotion bundle src/index.ts --out-dir bundle --log=error && npm cache clean --force
 WORKDIR /data/runs
 ENV HOME=/home/docgen DISPLAY=:1 BROWSER=firefox PYTHONPATH=/app \
     CLAUDE_CONFIG_DIR=/data/claude DOCGEN_GEOMETRY=1600x900 DOCGEN_RUNS_DIR=/data/runs DOCGEN_APP=/app DOCGEN_IMAGE=docgen:${GIT_SHA}
