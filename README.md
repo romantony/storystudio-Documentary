@@ -9,6 +9,7 @@ Design and API contract: `docs/DOCKER_SERVICE_DESIGN.md` (sections 4 and 13).
 | `api/server.py` | FastAPI server: one job at a time, status from `status.json`, signed webhooks, checkpoints. |
 | `api/mock_runner.py` | Stand-in for the Claude run; walks the stages without spending anything. |
 | `prompts/produce.md` | Instructions for the Claude Code run that produces a documentary. |
+| `docs/ORCHESTRATOR_INTEGRATION.md` | How the orchestrator connects: URL, auth, payload, webhooks, checkpoints, outputs. |
 | `Dockerfile`, `deploy/` | Image, supervisord, compose file, systemd units, first-boot setup (`setup-instance.sh`), `.env` from Parameter Store (`fetch-env.sh`), dead-man stop. |
 | `buildspec.yml` | CodeBuild (ARM) build that pushes to ECR. |
 | `tests/test_api.py` | Contract test against the mock runner. |
