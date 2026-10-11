@@ -141,7 +141,8 @@ Every error has the same shape:
   "long":   {"enabled": true, "target_seconds": 480, "narrator_voice": "Charon"},
   "shorts": {"count": 3, "angles": ["spark", "myth", "legacy"]},
   "visuals": {"archive": true, "stock": true, "image_gen": true, "talking_clips": 3,
-              "animated_stills": 10, "dramatised_character": true, "allow_graphic_archive": false},
+              "animated_stills": 10, "dramatised_character": true, "allow_graphic_archive": false,
+              "text_overlays": true},
   "review_mode": "checkpoints",
   "model": "claude-sonnet-5-5",
   "limits": {"max_runtime_minutes": 150, "max_llm_turns": 400},
@@ -165,6 +166,7 @@ Only `request_id`, `topic`, `synopsis` and `callback.url` are required. Everythi
 | `visuals.talking_clips` | 0 to 5, default 3 | Each is a paid generation |
 | `visuals.animated_stills` | 0 to 15, default 10 | Each is a paid generation |
 | `visuals.allow_graphic_archive` | default false | When false, photographs showing the dead are not used |
+| `visuals.text_overlays` | default true | Animated on-screen text (names, dates, numbers, quotations). Set false for videos with captions only. See section 7. |
 | `review_mode` | `checkpoints` (default) or `auto` | `auto` runs to the end without pausing |
 | `limits.max_runtime_minutes` | 30 to 300, default 150 | Counted from acceptance, including time spent waiting at checkpoints. The job fails with `timeout` when it is exceeded. |
 | `limits.max_llm_turns` | 20 to 2,000, default 400 | |
@@ -309,7 +311,47 @@ Fetch each file with `GET /v1/documentaries/{job_id}/files/<path>`, then answer:
 
 Use `retryable` to decide, cap attempts (two is reasonable), and remember that a retry starts from nothing and pays for generation again.
 
-## 7. Collecting the outputs
+## 7. Text overlays
+
+The service can put animated text over a scene: a person's name, a place and date, a chapter heading, a quotation or a number. The text is rendered by Remotion inside the instance and drawn under the captions. Nothing extra has to be installed or called by the orchestrator.
+
+**What the orchestrator controls**
+
+- `visuals.text_overlays` in the request: `true` (the default) lets the producing run add overlays where they help; `false` gives a video with captions only.
+- There is no field for specifying individual overlays in the request. Which scenes get one is decided when the script is written. The way to steer it is the script checkpoint, below.
+
+**What an overlay looks like in the script**
+
+Overlays are part of the script files a reviewer sees at `cp_script` (`script/script.json` for the long video, `shorts/<id>/script.json` for each Short). A scene or segment that has one carries an `overlay` entry, a single object or a list:
+
+```json
+{"n": 6, "narration": "Lincoln was a self-taught lawyer...", "asset": "inaug",
+ "overlay": {"type": "lower_third", "title": "Abraham Lincoln", "subtitle": "16th President of the United States"}}
+```
+
+| `type` | Fields | Shows |
+|---|---|---|
+| `lower_third` | `title`, optional `subtitle` | A person's name and role |
+| `stamp` | `text` | Place and date, typed out |
+| `title` | `title`, optional `subtitle` | A chapter heading |
+| `quote` | `text`, optional `attribution` | A quotation and its source |
+| `stat` | `value`, optional `label` | A number that counts up, with a label |
+
+Optional on any of them: `at` (seconds after the scene starts, default 0.8), `seconds` (how long it stays, default 4.5, shortened to fit the scene) and `zone` (`top` or `bottom`; normally left out so the builder avoids the captions).
+
+**Reviewing and changing overlays**
+
+- If the orchestrator shows scripts to a reviewer, it should display the `overlay` text along with the narration. Overlay text is on screen in the final video and needs the same proofreading.
+- To change them, answer `cp_script` with `revise` and say what is wanted in `instructions`, for example: "Remove the overlay from scene 9. Add a lower third naming Ulysses S. Grant in scene 14. No quote overlays." The run applies the changes and raises the checkpoint again.
+- A scene with a `quote` or `stat` overlay is always flagged `verify` in the script, so it appears on the fact-check list.
+
+**Effect on a job**
+
+- No generation cost: overlays do not appear in `costs`.
+- Time: about 10 seconds of rendering per overlay on the instance, so a typical episode gains a minute or two.
+- The instructions given to the producing run ask for restraint: roughly one scene in four at most, and one or two per Short.
+
+## 8. Collecting the outputs
 
 On `job.succeeded`, `status.outputs` lists the finished files:
 
@@ -328,7 +370,7 @@ The `kind` names are written by the producing run and are not a fixed list; `pat
 - **No output bucket is configured yet.** The files stay on the instance, and the job carries the warning "Outputs were not uploaded". Download each one with `GET /v1/documentaries/{job_id}/files/<path>` **before stopping the instance**. Run folders survive a stop, so a missed download can be recovered by starting the instance again.
 - When a bucket is configured, each entry also has `bucket` and `key`, and the orchestrator can read the files from there instead.
 
-## 8. Tables on the VPS
+## 9. Tables on the VPS
 
 ```sql
 create table docgen_jobs (
@@ -365,7 +407,7 @@ create table docgen_events (
 
 `queued` and `starting_instance` exist only in the orchestrator. The instance never reports them.
 
-## 9. Trying it by hand
+## 10. Trying it by hand
 
 The API calls below work only from the orchestrator host, because of the address restriction.
 
@@ -381,9 +423,10 @@ curl -s -H "Authorization: Bearer $TOKEN" $BASE/v1/documentaries/dg_xxxxxxxxxxxx
 aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 ```
 
-## 10. Not in place yet
+## 11. Not in place yet
 
 - **Storyblocks sign-in** on the instance desktop. Until it is done, health reports `ready: false` and only requests with `visuals.stock: false` are accepted.
+- **Overlays have not been produced by a real job.** The rendering and placement are tested with hand-written scripts; how well the producing run chooses and words them is not yet known.
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
 - **The access key** for `docgen-orchestrator` (section 2) has not been created.
 - **If the orchestrator's address changes,** edit the list in the CloudFront function `docgen-allow-orchestrator` and publish it; until then every call gets 403.

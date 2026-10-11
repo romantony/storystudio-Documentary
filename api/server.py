@@ -39,7 +39,7 @@ class Shorts(BaseModel):
 class Visuals(BaseModel):
     archive: bool = True; stock: bool = True; image_gen: bool = True
     talking_clips: int = Field(3, ge=0, le=5); animated_stills: int = Field(10, ge=0, le=15)
-    dramatised_character: bool = True; allow_graphic_archive: bool = False
+    dramatised_character: bool = True; allow_graphic_archive: bool = False; text_overlays: bool = True
 class Limits(BaseModel):
     max_runtime_minutes: int = Field(150, ge=30, le=300); max_llm_turns: int = Field(400, ge=20, le=2000)
 class Output(BaseModel):

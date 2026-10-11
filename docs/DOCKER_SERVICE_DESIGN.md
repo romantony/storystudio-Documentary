@@ -174,7 +174,8 @@ Full request, with defaults shown:
     "talking_clips": 3,
     "animated_stills": 10,
     "dramatised_character": true,
-    "allow_graphic_archive": false
+    "allow_graphic_archive": false,
+    "text_overlays": true
   },
   "review_mode": "checkpoints",
   "model": "claude-sonnet-5-5",
@@ -203,6 +204,7 @@ Full request, with defaults shown:
 | `visuals.animated_stills` | int, 0 to 15 | no | `10` | LTX clips of 5 seconds each. |
 | `visuals.dramatised_character` | bool | no | `true` | One invented talking character (10-second LTX clip). Labelled as a dramatisation in the description. |
 | `visuals.allow_graphic_archive` | bool | no | `false` | If `false`, archive photos showing the dead are avoided. |
+| `visuals.text_overlays` | bool | no | `true` | Animated on-screen text rendered by Remotion (names, dates, numbers, quotations). `false` gives captions only. |
 | `review_mode` | `checkpoints` or `auto` | no | `checkpoints` | See 4.6. |
 | `model` | string | no | `claude-sonnet-5-5` | |
 | `limits.max_runtime_minutes` | int, 30 to 300 | no | `150` | Hard stop; the job fails with `timeout`. |
