@@ -1,0 +1,71 @@
+{
+ "title": "Myth vs Reality: was it about states' rights?",
+ "segments": [
+  {
+   "text": "Myth: the Civil War was about states' rights.",
+   "image": "divided",
+   "fx": 0.5
+  },
+  {
+   "text": "Reality: the Confederacy said it was about slavery.",
+   "image": "plantation",
+   "fx": 0.5
+  },
+  {
+   "text": "Mississippi's declaration says its position is thoroughly identified with the institution of slavery.",
+   "image": "plantation",
+   "fx": 0.5
+  },
+  {
+   "text": "Texas, Georgia and South Carolina said the same.",
+   "image": "divided",
+   "fx": 0.5
+  },
+  {
+   "text": "The Confederate constitution itself protected the right to own enslaved people.",
+   "image": "plantation",
+   "fx": 0.5
+  },
+  {
+   "text": "And Confederate vice president Alexander Stephens called slavery the cornerstone of the new government.",
+   "image": "lincoln",
+   "fx": 0.5
+  },
+  {
+   "text": "Even the right the South defended was the right to hold people as property.",
+   "image": "plantation",
+   "fx": 0.5
+  },
+  {
+   "text": "Lincoln said it plainly in his second inaugural address:",
+   "image": "lincoln",
+   "fx": 0.5
+  },
+  {
+   "text": "all knew this interest was, somehow, the cause of the war.",
+   "image": "emancipation",
+   "fx": 0.5
+  },
+  {
+   "text": "Slavery was the cause. Union was the stake.",
+   "image": "emancipation",
+   "fx": 0.5
+  },
+  {
+   "text": "Emancipation made it the war's purpose.",
+   "image": "usct",
+   "fx": 0.5
+  }
+ ],
+ "verify": [
+  "Mississippi declaration quote; Stephens 'Cornerstone Speech' 21 Mar 1861; TX/GA/SC declarations cite slavery",
+  "Confederate constitution protects slavery (Art. I s.9(4)); Lincoln Second Inaugural 4 Mar 1865: 'All knew that this interest was, somehow, the cause of the war'"
+ ],
+ "bgm": "shorts/assets/bgm_b.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow_myth.mp4",
+  "audio": "shorts/assets/tts_follow_myth.wav",
+  "text": "Follow for more history myths."
+ },
+ "card_bg": "images_period/lincoln.jpg"
+}

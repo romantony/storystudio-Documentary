@@ -1,0 +1,86 @@
+{
+ "title": "Myth vs Reality: did the assassination start World War I that day?",
+ "segments": [
+  {
+   "text": "Myth: World War One started the day the archduke was shot.",
+   "image": "p10",
+   "fx": 0.45
+  },
+  {
+   "text": "Reality: for weeks, there was no war.",
+   "image": "p01",
+   "fx": 0.5
+  },
+  {
+   "text": "Most Europeans expected the crisis to calm down, as earlier ones had.",
+   "image": "p02",
+   "fx": 0.5
+  },
+  {
+   "text": "In early July, Germany promised Austria-Hungary its support, the so-called blank cheque.",
+   "image": "p17",
+   "fx": 0.7
+  },
+  {
+   "text": "On July twenty-third, Vienna sent Serbia a forty-eight hour ultimatum.",
+   "image": "shorts/assets/q_ultimatum.png",
+   "fx": 0.5
+  },
+  {
+   "text": "Serbia accepted most of it, but not all, and that was enough.",
+   "image": "p04",
+   "fx": 0.6
+  },
+  {
+   "text": "On July twenty-eighth, exactly one month after the killings, Austria-Hungary declared war on Serbia.",
+   "image": "shorts/assets/q_council2.png",
+   "fx": 0.5
+  },
+  {
+   "text": "Only then did the alliances pull in Russia,",
+   "image": "p15",
+   "fx": 0.5
+  },
+  {
+   "text": "Germany, France,",
+   "image": "p18",
+   "fx": 0.4
+  },
+  {
+   "text": "and finally Britain, on August fourth.",
+   "image": "p19",
+   "fx": 0.35
+  },
+  {
+   "text": "The bullet was the spark.",
+   "image": "p09",
+   "fx": 0.5
+  },
+  {
+   "text": "The month of choices was the fuse.",
+   "image": "p20",
+   "fx": 0.5
+  },
+  {
+   "text": "Follow for the full story.",
+   "image": "p10",
+   "fx": 0.55
+  }
+ ],
+ "verify": [
+  "Blank cheque 5-6 July",
+  "Ultimatum 23 July, 48 hours",
+  "War declared 28 July = one month after 28 June",
+  "Britain declared war 4 Aug",
+  "Order of declarations simplified: Germany-Russia 1 Aug, Germany-France 3 Aug"
+ ],
+ "words": 111,
+ "bgm": "shorts/assets/bgm_b.mp3",
+ "sfx": [
+  {
+   "file": "shorts/assets/sfx_council.mp3",
+   "segment": 6,
+   "volume": 0.6
+  }
+ ]
+}

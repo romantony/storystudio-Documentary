@@ -1,0 +1,407 @@
+{
+ "title": "How One Assassination Started World War I",
+ "scenes": [
+  {
+   "n": 1,
+   "media": "clip",
+   "narration": "A single gunshot in a quiet street changed the course of the twentieth century. On a summer morning in 1914, a teenager fired two bullets in Sarajevo. Within six weeks, the great powers of Europe were at war, and the world would never be the same. It began not with armies marching, but with a moment of confusion on a crowded street.",
+   "visual": "Empty old European city street at dawn, cobblestones, mist",
+   "video_query": {
+    "required_keyword": "street",
+    "keywords": "cobblestone street dawn"
+   },
+   "image_query": {
+    "required_keyword": "street",
+    "keywords": "old european street"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 2,
+   "media": "still",
+   "narration": "Europe in the summer of 1914 looked prosperous and confident. Trains ran on time, cities glittered, and trade linked nations together. Yet beneath the surface, rival empires armed themselves, suspicious of one another and certain that a great reckoning would come. Few ordinary people sensed how fragile that peace truly was.",
+   "visual": "Wide view of a bustling pre-war style European city skyline and train station",
+   "video_query": {
+    "required_keyword": "city",
+    "keywords": "european city skyline"
+   },
+   "image_query": {
+    "required_keyword": "station",
+    "keywords": "vintage train station"
+   },
+   "tone": "calm"
+  },
+  {
+   "n": 3,
+   "media": "clip",
+   "narration": "At the heart of the tension lay a tangle of alliances. Germany and Austria-Hungary were bound together, with Italy loosely attached. Facing them stood France and Russia, joined by an understanding with Britain. Each promise was meant to deter war, but each also pulled more nations toward it. The system made Europe feel secure, yet it quietly turned any local quarrel into a possible continental one.",
+   "visual": "Hands on a chessboard, pieces being moved, symbolising alliances",
+   "video_query": {
+    "required_keyword": "chessboard",
+    "keywords": "chess pieces moving"
+   },
+   "image_query": {
+    "required_keyword": "handshake",
+    "keywords": "diplomats handshake"
+   },
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Triple Alliance/Entente composition and Italy 'loosely attached' (Italy stayed neutral in 1914)"
+  },
+  {
+   "n": 4,
+   "media": "clip",
+   "narration": "Nationalism fuelled the fire. Across the Balkans, Slavic peoples dreamed of freedom from foreign rule. In Germany and France, old grievances burned, especially over Alsace and Lorraine, which France had lost in 1871. Pride, once a source of unity, became a source of danger. Newspapers stirred these feelings daily, and governments found it hard to ignore the mood of their own crowds.",
+   "visual": "Crowd waving flags in a city square",
+   "video_query": {
+    "required_keyword": "flag",
+    "keywords": "waving flag crowd"
+   },
+   "image_query": {
+    "required_keyword": "crowd",
+    "keywords": "crowd city square"
+   },
+   "tone": "urgent"
+  },
+  {
+   "n": 5,
+   "media": "clip",
+   "narration": "Empires competed for power and prestige. Britain and Germany raced to build ever larger battleships. European powers clashed over colonies in Africa and Asia. Military budgets swelled, and many leaders came to believe that war was not only possible but perhaps even necessary. In every capital, generals and admirals pressed for more weapons, fearing that their rivals were already ahead.",
+   "visual": "Large grey battleship at sea",
+   "video_query": {
+    "required_keyword": "battleship",
+    "keywords": "warship at sea"
+   },
+   "image_query": {
+    "required_keyword": "cannon",
+    "keywords": "naval gun"
+   },
+   "tone": "urgent"
+  },
+  {
+   "n": 6,
+   "media": "still",
+   "narration": "The Balkans were the powder keg. As the Ottoman Empire weakened, Serbia, Bulgaria, Greece and others fought two wars in 1912 and 1913 over its former lands. Austria-Hungary watched an ambitious, growing Serbia with alarm, while Russia saw itself as the protector of Slavic peoples. That made the region the place where a small spark was most likely to catch.",
+   "visual": "Antique-style map or rugged Balkan mountain landscape",
+   "video_query": {
+    "required_keyword": "mountain",
+    "keywords": "balkan mountains"
+   },
+   "image_query": {
+    "required_keyword": "map",
+    "keywords": "old map"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 7,
+   "media": "clip",
+   "narration": "Bosnia had been occupied by Austria-Hungary since 1878 and annexed in 1908. Many young Bosnian Serbs resented foreign rule. Some joined secret groups that dreamed of uniting the South Slavs, and a few were willing to use violence to achieve it. Among them was a loosely organised movement of students and young idealists, many barely out of school.",
+   "visual": "Young men talking quietly in a dim room, silhouette",
+   "video_query": {
+    "required_keyword": "silhouette",
+    "keywords": "silhouette man shadows"
+   },
+   "image_query": {
+    "required_keyword": "room",
+    "keywords": "dim room secret meeting"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 8,
+   "media": "clip",
+   "narration": "Behind the plot stood Serbian nationalist networks. A secret group known as the Black Hand, led by an army officer, helped arm and train the young assassins. Whether Serbia's government knew is still debated, but Austria-Hungary was convinced that Belgrade was guilty, and wanted to punish it.",
+   "visual": "Dark corridor, hands exchanging a package in shadow",
+   "video_query": {
+    "required_keyword": "shadow",
+    "keywords": "hand shadow package"
+   },
+   "image_query": {
+    "required_keyword": "secret",
+    "keywords": "secret documents"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 9,
+   "media": "still",
+   "narration": "Archduke Franz Ferdinand was the heir to the Austro-Hungarian throne. In late June 1914 he travelled to Sarajevo to inspect the army, with his wife Sophie. The visit fell on June 28th, a Serbian national day of deep symbolic meaning, an unfortunate choice, to say the least. The route had been publicised in advance, and security was thin for such a high profile guest.",
+   "visual": "Elegant historic car or vintage horse carriage on a city road",
+   "video_query": {
+    "required_keyword": "car",
+    "keywords": "vintage car"
+   },
+   "image_query": {
+    "required_keyword": "carriage",
+    "keywords": "horse carriage"
+   },
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "June 28th as Vidovdan; Sophie accompanied him; 'unfortunate choice' is interpretive"
+  },
+  {
+   "n": 10,
+   "media": "clip",
+   "narration": "That morning, seven conspirators waited along the route. The first threw a bomb at the royal car, but it bounced off and exploded under another vehicle, wounding several people. The archduke continued the programme anyway. The danger, it seemed, had passed. Officials debated whether to cancel the rest of the visit, yet the schedule went on.",
+   "visual": "Crowd along a street watching a motorcade, tension",
+   "video_query": {
+    "required_keyword": "motorcade",
+    "keywords": "car convoy street crowd"
+   },
+   "image_query": {
+    "required_keyword": "bridge",
+    "keywords": "old stone bridge river"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "seven conspirators on route; bomb bounced off car and wounded bystanders/officers in following car"
+  },
+  {
+   "n": 11,
+   "media": "clip",
+   "narration": "Then a wrong turn changed everything. The driver stopped to reverse, right in front of nineteen-year-old Gavrilo Princip, who was standing near a cafe. He stepped forward and fired twice. Franz Ferdinand and Sophie both died within minutes. The shots took a matter of seconds, but their consequences would last for decades.",
+   "visual": "Close shot of a lone young man in a crowd, then gun silhouette abstract",
+   "video_query": {
+    "required_keyword": "man",
+    "keywords": "young man crowd"
+   },
+   "image_query": {
+    "required_keyword": "shadow",
+    "keywords": "dark alley shadow"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "Princip near Schiller's delicatessen after driver took wrong turn; both died within about an hour"
+  },
+  {
+   "n": 12,
+   "media": "still",
+   "narration": "News of the murders travelled by telegraph across Europe. Newspapers carried the shock to every capital. Many people mourned, but few expected a continental war. Assassinations had happened before, and diplomats had always managed to calm the storm. Yet in Vienna and Berlin, quiet conversations had already begun about how to respond.",
+   "visual": "Stack of newspapers and a telegraph machine",
+   "video_query": {
+    "required_keyword": "newspaper",
+    "keywords": "newspaper printing press"
+   },
+   "image_query": {
+    "required_keyword": "telegraph",
+    "keywords": "telegraph machine"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 13,
+   "media": "clip",
+   "narration": "Austria-Hungary saw its chance to crush Serbia, which it blamed for the plot. But it was wary of Russia. So it turned to its ally. In early July, Germany promised unconditional support, a promise later nicknamed the blank cheque. That assurance gave Austria-Hungary the confidence to take a far harder line than it otherwise might have.",
+   "visual": "Official writing a letter with a pen at a desk, wax seal",
+   "video_query": {
+    "required_keyword": "pen",
+    "keywords": "writing letter pen"
+   },
+   "image_query": {
+    "required_keyword": "document",
+    "keywords": "signing document"
+   },
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "'blank cheque' 5-6 July"
+  },
+  {
+   "n": 14,
+   "media": "clip",
+   "narration": "On July 23rd, Vienna sent Serbia an ultimatum with a forty-eight hour deadline. Its demands were harsh. Serbia accepted most of them, yet not all. That was enough. Austria-Hungary declared war on Serbia on July 28th, exactly one month after the assassination. Hopes for a negotiated settlement faded with every passing hour.",
+   "visual": "Clock ticking, close-up of a wall clock",
+   "video_query": {
+    "required_keyword": "clock",
+    "keywords": "wall clock ticking"
+   },
+   "image_query": {
+    "required_keyword": "calendar",
+    "keywords": "calendar page"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "Ultimatum 23 July, 48 hrs; Serbia accepted most points; war declared 28 July"
+  },
+  {
+   "n": 15,
+   "media": "still",
+   "narration": "Russia would not abandon Serbia. It began to mobilise its vast army, and the Tsar hoped that it could be limited to the south. But Russian military plans were not designed for partial moves. Soon the order grew into a general mobilisation. Each step was meant as a warning, but to Germany it looked like preparation for attack.",
+   "visual": "Soldiers marching or a railway platform full of troops",
+   "video_query": {
+    "required_keyword": "soldier",
+    "keywords": "soldiers marching"
+   },
+   "image_query": {
+    "required_keyword": "train",
+    "keywords": "troop train"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "Russian partial vs general mobilisation 29-30 July"
+  },
+  {
+   "n": 16,
+   "media": "clip",
+   "narration": "Mobilisation was the hair trigger of 1914. Armies moved by rail on tight schedules, and delay meant disadvantage. Once one nation mobilised, its neighbours felt they had to follow. Diplomats were suddenly racing against railway timetables. Whole societies were being prepared for war faster than their leaders could stop and think.",
+   "visual": "Railway tracks and a train moving, timetable board",
+   "video_query": {
+    "required_keyword": "train",
+    "keywords": "train railway tracks"
+   },
+   "image_query": {
+    "required_keyword": "railway",
+    "keywords": "railway station timetable"
+   },
+   "tone": "urgent"
+  },
+  {
+   "n": 17,
+   "media": "clip",
+   "narration": "Germany faced a nightmare, war against France and Russia at once. Its plan, drawn up years earlier by Alfred von Schlieffen, called for a lightning strike against France first, through neutral Belgium, before Russia could fully mobilise. It had little room for flexibility. The plan assumed speed above all, and once set in motion it was very hard to stop.",
+   "visual": "Military officers studying a map on a table",
+   "video_query": {
+    "required_keyword": "map",
+    "keywords": "officers studying map"
+   },
+   "image_query": {
+    "required_keyword": "general",
+    "keywords": "military officer"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "Schlieffen Plan attributed to Alfred von Schlieffen; designed before 1906"
+  },
+  {
+   "n": 18,
+   "media": "still",
+   "narration": "On August 1st, Germany declared war on Russia. Two days later it declared war on France, and its armies crossed into Belgium. Europe's web of alliances, designed to preserve peace, had instead turned a Balkan quarrel into a continental crisis. The timetable of the generals had now overtaken the patience of the diplomats.",
+   "visual": "Marching columns, rifles, dust on a road",
+   "video_query": {
+    "required_keyword": "rifle",
+    "keywords": "soldiers rifles marching"
+   },
+   "image_query": {
+    "required_keyword": "road",
+    "keywords": "dusty road"
+   },
+   "tone": "urgent",
+   "verify": true,
+   "verify_note": "Germany-Russia 1 Aug, Germany-France 3 Aug; invaded Belgium 4 Aug"
+  },
+  {
+   "n": 19,
+   "media": "clip",
+   "narration": "Britain hesitated. It had no formal duty to fight for France or Russia. But Belgium's neutrality had been guaranteed by treaty since 1839, and Germany had violated it. On August 4th Britain declared war, and with its empire, the conflict became global. Within days, the British Empire, from Canada to India and Australia, was drawn in.",
+   "visual": "British-style flag over a harbour or ships departing",
+   "video_query": {
+    "required_keyword": "harbour",
+    "keywords": "harbour ships"
+   },
+   "image_query": {
+    "required_keyword": "flag",
+    "keywords": "flag waving"
+   },
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Treaty of London 1839; Britain declared war 4 Aug"
+  },
+  {
+   "n": 20,
+   "media": "clip",
+   "narration": "Crowds cheered in the capitals. Young men rushed to enlist, believing the war would be short, over by Christmas. They marched off past flowers and flags, with no idea of what lay ahead. The idea of a short, glorious war proved to be one of history's cruellest illusions.",
+   "visual": "Cheering crowd, young people waving, vintage mood",
+   "video_query": {
+    "required_keyword": "crowd",
+    "keywords": "cheering crowd"
+   },
+   "image_query": {
+    "required_keyword": "farewell",
+    "keywords": "people waving goodbye train"
+   },
+   "tone": "wonder",
+   "verify": true,
+   "verify_note": "'over by Christmas' popular belief"
+  },
+  {
+   "n": 21,
+   "media": "still",
+   "narration": "The war that followed was nothing like the one they imagined. Machine guns, artillery and barbed wire turned battlefields into stalemate. Trenches stretched across France, and men lived and died in mud for years. Soldiers on both sides soon learned that courage alone could not beat modern weapons.",
+   "visual": "Muddy field, barbed wire, grey sky",
+   "video_query": {
+    "required_keyword": "wire",
+    "keywords": "barbed wire field"
+   },
+   "image_query": {
+    "required_keyword": "trench",
+    "keywords": "trench mud"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 22,
+   "media": "clip",
+   "narration": "The fighting spread to Africa, the Middle East and the oceans. Empires drew in colonies, and millions of soldiers from across the world. It became the first truly global industrial war, and the death toll reached roughly nine million soldiers. Cities, farms and factories at home were reshaped to feed an endless demand for men and shells.",
+   "visual": "Ocean waves, empty battlefield memorial, wide landscape",
+   "video_query": {
+    "required_keyword": "memorial",
+    "keywords": "war memorial crosses"
+   },
+   "image_query": {
+    "required_keyword": "cemetery",
+    "keywords": "military cemetery"
+   },
+   "tone": "sombre"
+  },
+  {
+   "n": 23,
+   "media": "still",
+   "narration": "Four great empires, the German, Austro-Hungarian, Russian and Ottoman, collapsed by the end of the war. Borders were redrawn, new nations appeared, and the settlement that followed left resentments that would help bring another world war within a generation. Empires that had seemed permanent for centuries vanished within a few short years.",
+   "visual": "Sunrise over a European landscape with ruins",
+   "video_query": {
+    "required_keyword": "ruin",
+    "keywords": "ruined building"
+   },
+   "image_query": {
+    "required_keyword": "sunrise",
+    "keywords": "sunrise landscape"
+   },
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "roughly 9-10 million military deaths"
+  },
+  {
+   "n": 24,
+   "media": "clip",
+   "narration": "So did one assassination cause the First World War? Not alone. The bullet was the spark, but alliances, mobilisation plans, nationalism and imperial rivalry had stacked the kindling for years. A crisis that could have stayed regional was allowed to become a world on fire. The lesson is not that wars are inevitable, but that small decisions made in fear can grow enormous.",
+   "visual": "Small flame igniting dry wood, slow motion",
+   "video_query": {
+    "required_keyword": "fire",
+    "keywords": "fire flame slow motion"
+   },
+   "image_query": {
+    "required_keyword": "spark",
+    "keywords": "sparks fire"
+   },
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Four empires collapsed; link to WWII is interpretive"
+  },
+  {
+   "n": 25,
+   "media": "card",
+   "after": 12,
+   "tone": "calm",
+   "cta": "mid",
+   "narration": "If this story is helping you see how history connects, take a moment to like this video, subscribe, and share it with a friend. This is the first episode of our series, Wars That Shaped the World, where each episode follows one conflict and the changes it left behind. Now, back to the summer of 1914."
+  },
+  {
+   "n": 26,
+   "media": "card",
+   "after": 24,
+   "tone": "calm",
+   "cta": "end",
+   "narration": "This was the first episode of Wars That Shaped the World. In the next one, we travel back two centuries to the Napoleonic Wars. If you enjoyed this video, please like it, subscribe so you do not miss the next episode, and share it with someone who loves history. Thank you for watching."
+  }
+ ]
+}

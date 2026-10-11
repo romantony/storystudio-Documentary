@@ -1,0 +1,88 @@
+{
+ "title": "Why It Still Matters: the Civil War's legacy",
+ "segments": [
+  {
+   "text": "The Civil War ended slavery and remade America.",
+   "image": "emancipation",
+   "fx": 0.5
+  },
+  {
+   "text": "Three amendments rewrote the Constitution.",
+   "image": "historian_amend",
+   "fx": 0.5
+  },
+  {
+   "text": "The Thirteenth abolished slavery.",
+   "image": "lincoln",
+   "fx": 0.5
+  },
+  {
+   "text": "The Fourteenth promised equal protection under the law.",
+   "image": "reconstruction",
+   "fx": 0.5
+  },
+  {
+   "text": "The Fifteenth protected the right to vote.",
+   "image": "usct",
+   "fx": 0.5
+  },
+  {
+   "text": "During Reconstruction, Black Americans voted in huge numbers,",
+   "image": "reconstruction",
+   "fx": 0.5
+  },
+  {
+   "text": "and were elected to Congress and state governments.",
+   "image": "federal",
+   "fx": 0.5
+  },
+  {
+   "text": "The federal government became stronger, and the Union permanent.",
+   "image": "federal",
+   "fx": 0.5
+  },
+  {
+   "text": "It was also the first industrial war,",
+   "image": "industrial",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_industrial.mp4"
+  },
+  {
+   "text": "with railways, telegraphs and trenches.",
+   "image": "wwi",
+   "fx": 0.5
+  },
+  {
+   "text": "A preview of what the world would see in nineteen fourteen.",
+   "image": "wwi",
+   "fx": 0.5
+  },
+  {
+   "text": "But Reconstruction ended in eighteen seventy-seven,",
+   "image": "reconstruction",
+   "fx": 0.5
+  },
+  {
+   "text": "and the struggle for equality went on for another century.",
+   "image": "graves",
+   "fx": 0.5
+  },
+  {
+   "text": "The unfinished work of the Civil War shaped the civil rights movement.",
+   "image": "address",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_address.mp4"
+  }
+ ],
+ "verify": [
+  "13th Dec 1865; 14th 1868; 15th 1870; Reconstruction ended 1877; century to Civil Rights Act 1964/VRA 1965",
+  "Black Americans elected during Reconstruction (Hiram Revels, US Senate 1870); civil rights movement link"
+ ],
+ "bgm": "shorts/assets/bgm_c.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow.mp4",
+  "audio": "shorts/assets/tts_follow.wav",
+  "text": "Follow for the full story."
+ },
+ "card_bg": "images_period/address.jpg"
+}

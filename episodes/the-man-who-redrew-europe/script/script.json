@@ -1,0 +1,309 @@
+{
+ "title": "The Man Who Redrew Europe",
+ "scenes": [
+  {
+   "n": 1,
+   "media": "itk",
+   "narration": "I am standing on a frozen hill in Moravia. It is the second of December, eighteen oh five. In a few hours, on this ground, an emperor will fight two others, and win so completely that the map of Europe will never look the same. This is the story of the man who redrew it.",
+   "visual": "Reporter on the Pratzen Heights at dawn, 2 December 1805",
+   "asset": "reporter_austerlitz",
+   "tone": "tense"
+  },
+  {
+   "n": 2,
+   "media": "gen",
+   "narration": "He was born in Corsica in seventeen sixty-nine, a minor nobleman's son who spoke French with an accent. Nobody expected him to rule anything. But the French Revolution had shattered the old order, and ambitious officers rose fast.",
+   "visual": "Young Napoleon Bonaparte, Corsican officer, 1790s, painted portrait style",
+   "asset": "napoleon_young",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "born 1769 Corsica; accent claim: widely stated"
+  },
+  {
+   "n": 3,
+   "media": "still",
+   "narration": "In seventeen ninety-nine he joined a coup, and within months he was First Consul, the most powerful man in France. The Revolution had promised liberty. What it delivered, in the end, was a general.",
+   "visual": "Coup of 18 Brumaire 1799, painting",
+   "asset": "brumaire",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "coup 9-10 Nov 1799 (18-19 Brumaire); First Consul"
+  },
+  {
+   "n": 4,
+   "media": "still",
+   "narration": "In eighteen oh four, in Notre-Dame, he took the crown from the Pope's hands and placed it on his own head. He did not need anyone to make him emperor. He made himself one.",
+   "visual": "Coronation of Napoleon, David painting",
+   "asset": "coronation",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "2 Dec 1804; Napoleon crowned himself"
+  },
+  {
+   "n": 5,
+   "media": "ltx",
+   "narration": "Across the Channel, Britain refused to bow. Napoleon planned to invade, but in October eighteen oh five, Admiral Nelson destroyed the French and Spanish fleets at Trafalgar. Britain's navy would rule the seas for a century.",
+   "visual": "Napoleon crowning himself, animated painting",
+   "asset": "trafalgar",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "Trafalgar 21 Oct 1805; Nelson killed; 'rule seas for a century' - soften"
+  },
+  {
+   "media": "still",
+   "narration": "Short of money and men, he sold France's American lands in eighteen oh three for about fifteen million dollars. The Louisiana Purchase doubled the size of the young United States, a deal that would shape America's own wars, including the one we cover in episode three.",
+   "visual": "Louisiana Purchase, map or treaty signing",
+   "asset": "louisiana",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Louisiana Purchase 1803, ~$15M, doubled US size",
+   "n": 6
+  },
+  {
+   "n": 7,
+   "media": "still",
+   "narration": "So Napoleon turned east. At Austerlitz, on that same December day, he faced the armies of Russia and Austria, which outnumbered him. He pretended to be weak, then struck the centre of their line. By dusk the allied army had collapsed. It is still called the Battle of the Three Emperors, because Napoleon, Tsar Alexander and Emperor Francis were all there.",
+   "visual": "Battle of Austerlitz, painting by Gérard or Lejeune",
+   "asset": "austerlitz",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Austerlitz 2 Dec 1805, Three Emperors; allies ~85k vs ~73k French"
+  },
+  {
+   "n": 8,
+   "media": "gen",
+   "narration": "It was his masterpiece. Austria sued for peace, and in eighteen oh six, the Holy Roman Empire, a thousand years old in some tellings, was dissolved. Napoleon rearranged the German states into a new league under his protection.",
+   "visual": "Smoke and cavalry on a snowy plain",
+   "asset": "dissolution",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "HRE dissolved 6 Aug 1806; Confederation of the Rhine; 'thousand years' contested"
+  },
+  {
+   "media": "gen",
+   "narration": "Unable to beat Britain at sea, he tried to starve it. In eighteen oh six he banned British goods from every port he controlled. This Continental System backfired. Smuggling boomed, prices rose across Europe, and Russia, tired of the losses, began to ignore the ban.",
+   "visual": "Smugglers and blockaded harbour, British ships offshore",
+   "asset": "continental",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "Berlin Decree Nov 1806; Russia withdrew 1810",
+   "n": 9
+  },
+  {
+   "n": 10,
+   "media": "still",
+   "narration": "By eighteen twelve, France ruled or dominated most of continental Europe, from Spain to the borders of Russia. His brothers sat on thrones, and his officers governed provinces. It looked as if nothing could stop him. Only Britain, Sweden and a few others remained outside his reach.",
+   "visual": "Map of Europe 1812, Napoleonic empire at its height",
+   "asset": "map1812",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "empire extent 1812"
+  },
+  {
+   "n": 11,
+   "media": "itk",
+   "narration": "But his greatest work was not a battle. It was a book. The Civil Code of eighteen oh four swept away feudal privilege, and declared that all citizens are equal before the law. Property rights, contracts, civil marriage: they were written down clearly, in one place. It still shapes law in dozens of countries today. It also kept women legally beneath their husbands, so it was a mixed gift.",
+   "visual": "Lawyer/historian in a study with the Code Napoléon",
+   "asset": "historian_code",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Code 1804; women subordinate; 'dozens of countries' verify"
+  },
+  {
+   "n": 12,
+   "media": "still",
+   "narration": "He sold his reforms with the bayonet, but many people welcomed them. In conquered lands, serfdom ended, Jews left ghettos, and the metric system took root. Yet the same armies took art, taxes and sons.",
+   "visual": "Napoleon crossing the Alps / on horseback",
+   "asset": "reforms",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "serfdom ended in some states; ghettos opened (Italy/Germany parts); metric system"
+  },
+  {
+   "media": "gen",
+   "narration": "For ordinary people, life under his rule had two faces. Careers were opened to talent, so a baker's son could become a marshal. But conscription meant young men were taken by the hundred thousand, and families learned to dread the knock of the recruiting officer.",
+   "visual": "Young conscripts in a village, a recruiting officer, 1810",
+   "asset": "life",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "careers open to talent; conscription numbers verify",
+   "n": 13
+  },
+  {
+   "n": 14,
+   "media": "gen",
+   "narration": "And conquest bred resistance. In Spain, guerrillas bled his armies for years. The word guerrilla, little war, entered the language. In Germany and Italy, people who had been told they were subjects began to call themselves nations. Britain sent an army under Wellington to help, and Spain became what Napoleon himself called his ulcer.",
+   "visual": "Occupied Spanish town, guerrilla ambush, Goya style",
+   "asset": "guerrilla",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "Peninsular War 1808-14; guerrilla term origin"
+  },
+  {
+   "n": 15,
+   "media": "ltx",
+   "narration": "Then, in eighteen twelve, he made his fatal choice. He marched into Russia with more than half a million men. The Russians retreated, burning as they went. Napoleon reached Moscow, but found it empty and on fire.",
+   "visual": "Moscow in flames, painting",
+   "asset": "moscow",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Grande Armée ~600k+ (verify); Moscow Sept 1812 fire"
+  },
+  {
+   "media": "still",
+   "narration": "On the way, at Borodino on the seventh of September, the two armies met in the bloodiest single day of the entire war. Tens of thousands fell. The Russians withdrew, but they had not been broken.",
+   "visual": "Battle of Borodino, painting",
+   "asset": "borodino",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Borodino 7 Sept 1812; ~70k casualties verify",
+   "n": 16
+  },
+  {
+   "n": 17,
+   "media": "gen",
+   "narration": "The retreat in winter was a catastrophe. Cold, hunger and disease finished what the Cossacks began. Only a fraction of the army came home. It is one of the great military disasters in history.",
+   "visual": "Frozen retreat, soldiers in snow, 1812",
+   "asset": "retreat",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "fraction returned; ~ under 100k (verify)"
+  },
+  {
+   "media": "ltx",
+   "narration": "A weary grenadier stops in the snow and says: “We marched in with songs. We walked out without boots. The cold did not care who was emperor.”",
+   "visual": "Weary French grenadier in the snow, speaking to camera, dramatised",
+   "asset": "soldier",
+   "tone": "sombre",
+   "n": 18
+  },
+  {
+   "n": 19,
+   "media": "still",
+   "narration": "Europe saw its chance. At Leipzig in October eighteen thirteen, the largest battle yet seen on the continent, Russia, Prussia, Austria and Sweden crushed him. The following spring, allied troops entered Paris.",
+   "visual": "Battle of Leipzig, painting",
+   "asset": "leipzig",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Leipzig 16-19 Oct 1813; Paris fell Mar 1814; 'largest' verify"
+  },
+  {
+   "n": 20,
+   "media": "still",
+   "narration": "He abdicated in April, eighteen fourteen, and was sent to the tiny island of Elba. But he was not finished.",
+   "visual": "Napoleon at Fontainebleau / Elba",
+   "asset": "elba",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "abdicated 6 Apr 1814"
+  },
+  {
+   "n": 21,
+   "media": "ltx",
+   "narration": "In March eighteen fifteen, he slipped away, landed in France, and soldiers sent to arrest him joined him instead. For a hundred days he ruled again, and Europe held its breath.",
+   "visual": "Napoleon landing in France 1815, painting",
+   "asset": "hundred_days",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "landed 1 Mar 1815; Hundred Days"
+  },
+  {
+   "n": 22,
+   "media": "still",
+   "narration": "The end came at Waterloo, in Belgium, on the eighteenth of June. Wellington's army held the ridge all day. Late in the afternoon the Prussians arrived, and the Old Guard broke. It was over. Around forty thousand men lay dead or wounded when the sun set.",
+   "visual": "Battle of Waterloo painting",
+   "asset": "waterloo",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Waterloo 18 June 1815; ~40-50k casualties (all sides) verify"
+  },
+  {
+   "n": 23,
+   "media": "still",
+   "narration": "The British sent him to Saint Helena, a speck in the South Atlantic, where he died in eighteen twenty-one. The wars he began had lasted twelve years, and cost millions of lives.",
+   "visual": "Napoleon on St Helena",
+   "asset": "sthelena",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "died 5 May 1821; 'millions' of deaths verify"
+  },
+  {
+   "media": "still",
+   "narration": "Yet his legend only grew. His body returned to Paris in eighteen forty, and today he rests under the golden dome of Les Invalides. For some he was a tyrant. For others, the soldier of the Revolution. Historians still argue over which was true.",
+   "visual": "Napoleon's tomb at Les Invalides or the Arc de Triomphe",
+   "asset": "legend",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "remains returned 1840; tomb at Invalides",
+   "n": 24
+  },
+  {
+   "n": 25,
+   "media": "still",
+   "narration": "Then the winners met in Vienna to decide what to do with Europe. Diplomats like Metternich of Austria, Castlereagh of Britain and Talleyrand of France wanted one thing above all: never again. They met for months, and between negotiations they danced, so critics joked that the Congress danced but did not move.",
+   "visual": "Congress of Vienna painting",
+   "asset": "vienna",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Congress 1814-15; \"dances but does not move\" quip attributed to Prince de Ligne; Metternich/Castlereagh/Talleyrand"
+  },
+  {
+   "n": 26,
+   "media": "gen",
+   "narration": "Their answer was the balance of power. No state would be allowed to grow strong enough to dominate the rest. The great powers would meet and settle crises together. This system became known as the Concert of Europe.",
+   "visual": "Diplomats around a table, candlelight, 1815",
+   "asset": "concert",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Concert of Europe"
+  },
+  {
+   "n": 27,
+   "media": "gen",
+   "narration": "It worked, for a while. There was no war involving all the great powers for almost forty years. But the old kings who were restored also tried to crush the new ideas of liberty and nationhood.",
+   "visual": "Old monarchs restoring thrones, crowned heads",
+   "asset": "restoration",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Crimean War 1853-56 (~40 yrs)"
+  },
+  {
+   "n": 28,
+   "media": "gen",
+   "narration": "Those ideas would not die. Napoleon had shown that ordinary people could fight for a nation. In eighteen forty-eight, revolutions swept the continent. Italy and Germany, divided for centuries, would eventually unite.",
+   "visual": "Crowd waving tricolour flags in the 1848 revolutions",
+   "asset": "nationalism",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "1848 revolutions; unification 1861/1871"
+  },
+  {
+   "n": 29,
+   "media": "still",
+   "narration": "And that is the thread that leads to nineteen fourteen. A united, ambitious Germany unsettled the balance Vienna had built. Rival alliances formed to restore it. Those alliances would turn a single shot in Sarajevo into a world war.",
+   "visual": "Proclamation of the German Empire, Versailles 1871",
+   "asset": "versailles",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "German Empire proclaimed 18 Jan 1871 at Versailles"
+  },
+  {
+   "n": 30,
+   "media": "itk",
+   "narration": "So Napoleon lost every battle that mattered in the end. But he won something stranger: he made the modern world. Nations, equal laws, and a Europe that tried to hold itself in balance. Next time, we look at the war that tore a young country in two, the American Civil War.",
+   "visual": "Reporter in Vienna 1815 sign-off",
+   "asset": "reporter_vienna",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "next episode: American Civil War (series plan ep 3)"
+  },
+  {
+   "n": 31,
+   "media": "still",
+   "narration": "If you enjoyed this, subscribe, and watch how one assassination started World War One.",
+   "visual": "End card",
+   "asset": "endcard",
+   "tone": "calm"
+  }
+ ]
+}

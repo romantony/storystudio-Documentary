@@ -1,0 +1,73 @@
+{
+ "title": "Why It Still Matters: Napoleon's legacy",
+ "segments": [
+  {
+   "text": "Napoleon lost at Waterloo, but we still live in his world.",
+   "image": "waterloo",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_waterloo.mp4"
+  },
+  {
+   "text": "His civil code made all citizens equal before the law,",
+   "image": "historian",
+   "fx": 0.5
+  },
+  {
+   "text": "and it shaped legal systems from Europe to Latin America.",
+   "image": "map1812",
+   "fx": 0.5
+  },
+  {
+   "text": "He swept away feudal privilege across half a continent.",
+   "image": "reforms",
+   "fx": 0.5
+  },
+  {
+   "text": "His invasions taught people to think of themselves as nations,",
+   "image": "guerrilla",
+   "fx": 0.5
+  },
+  {
+   "text": "and that idea built Germany and Italy.",
+   "image": "versailles",
+   "fx": 0.5
+  },
+  {
+   "text": "After he fell, the great powers met in Vienna, to keep Europe in balance.",
+   "image": "vienna",
+   "fx": 0.5
+  },
+  {
+   "text": "That balance held for about forty years, and then began to crack.",
+   "image": "nationalism",
+   "fx": 0.5
+  },
+  {
+   "text": "A united Germany upset it, and rival alliances formed in response.",
+   "image": "versailles",
+   "fx": 0.5
+  },
+  {
+   "text": "In nineteen fourteen, those alliances turned one shot into a world war.",
+   "image": "vienna",
+   "fx": 0.5
+  },
+  {
+   "text": "The man who redrew Europe is still redrawing how we live.",
+   "image": "sthelena",
+   "fx": 0.5
+  }
+ ],
+ "verify": [
+  "Code civil 1804 influence: Europe/Latin America",
+  "Vienna order held ~40 years before Crimean War",
+  "Unification Germany 1871 / alliances"
+ ],
+ "bgm": "shorts/assets/bgm_c.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow.mp4",
+  "audio": "shorts/assets/tts_follow.wav",
+  "text": "Follow for the full story."
+ },
+ "card_bg": "images_period/waterloo.jpg"
+}

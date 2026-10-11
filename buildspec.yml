@@ -1,0 +1,23 @@
+# CodeBuild project docgen-image: environment ARM_CONTAINER, image aws/codebuild/amazonlinux-aarch64-standard:3.0, privileged mode on.
+version: 0.2
+env:
+  variables:
+    REPO: docgen
+phases:
+  pre_build:
+    commands:
+      - ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+      - REGISTRY=$ACCOUNT.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws ecr get-login-password | docker login --username AWS --password-stdin $REGISTRY
+      - TAG=$(echo ${CODEBUILD_RESOLVED_SOURCE_VERSION:-manual} | cut -c1-7)
+  build:
+    commands:
+      - docker build --build-arg GIT_SHA=$TAG -t $REGISTRY/$REPO:$TAG -t $REGISTRY/$REPO:latest .
+      - docker run --rm --entrypoint bash $REGISTRY/$REPO:$TAG -c "uname -m && ffmpeg -version | head -1 && firefox --version && claude --version && python3 -m docgen 2>&1 | head -1"
+  post_build:
+    commands:
+      - docker push $REGISTRY/$REPO:$TAG
+      - docker push $REGISTRY/$REPO:latest
+      - printf '{"image":"%s/%s:%s"}' $REGISTRY $REPO $TAG > image.json
+artifacts:
+  files: [image.json]

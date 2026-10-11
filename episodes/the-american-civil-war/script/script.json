@@ -1,0 +1,291 @@
+{
+ "title": "The War That Ended Slavery",
+ "scenes": [
+  {
+   "n": 1,
+   "media": "itk",
+   "narration": "It is four-thirty in the morning, the twelfth of April, eighteen sixty-one. Across the water in Charleston harbour, a single cannon is about to fire on a United States fort. Within four years, more Americans will die in the war that follows than in any other in the nation's history. This is how a divided country went to war with itself.",
+   "visual": "reporter_sumter",
+   "asset": "reporter_sumter",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "Sumter bombardment began ~4:30am 12 Apr 1861"
+  },
+  {
+   "n": 2,
+   "media": "still",
+   "narration": "In eighteen sixty, the United States was really two societies under one flag. In the North, factories, railways and growing cities. In the South, an economy built on cotton, and on the labour of nearly four million enslaved people.",
+   "visual": "In 1860, the United States was two societies under one flag",
+   "asset": "divided",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "~3.95M enslaved in 1860 census"
+  },
+  {
+   "n": 3,
+   "media": "still",
+   "narration": "Slavery was not a side issue. It was the largest single investment in the Southern economy, and the great question of American politics. Could it spread into the new western territories, or would it be contained?",
+   "visual": "Slave auction or cotton plantation photograph",
+   "asset": "plantation",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "slavery largest asset claim: widely cited"
+  },
+  {
+   "n": 4,
+   "media": "gen",
+   "narration": "For decades, compromises kept the peace. Then, in eighteen sixty, voters elected Abraham Lincoln. He promised not to abolish slavery where it existed, but to stop its spread. For Southern leaders, that was enough.",
+   "visual": "Political tension 1850s, crowd with newspapers",
+   "asset": "tension",
+   "tone": "tense",
+   "verify": true,
+   "verify_note": "Lincoln elected Nov 1860 on non-extension"
+  },
+  {
+   "n": 5,
+   "media": "still",
+   "narration": "South Carolina left the Union in December. By February eighteen sixty-one, seven states had seceded and formed the Confederate States of America. They did not hide their reason. Their own declarations of secession spoke of slavery again and again.",
+   "visual": "Lincoln portrait, 1860",
+   "asset": "lincoln",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "SC 20 Dec 1860; seven states by Feb 1861; declarations cite slavery (MS, SC, TX, GA)"
+  },
+  {
+   "media": "still",
+   "narration": "Lincoln was a self-taught lawyer, born in a log cabin in Kentucky. In his first speech as president, he promised not to attack the South, but warned that he would not let the Union be broken. The next move, he said, was theirs.",
+   "visual": "Lincoln first inauguration 1861, Capitol",
+   "asset": "inaug",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "born in log cabin KY; inaugural 4 Mar 1861: no assault, 'you have no oath registered in heaven to destroy the government'",
+   "n": 6
+  },
+  {
+   "n": 7,
+   "media": "still",
+   "narration": "On the twelfth of April, Confederate guns opened fire on Fort Sumter, a Union garrison in Charleston harbour. After thirty-four hours, the fort surrendered. Lincoln called for seventy-five thousand volunteers, and four more states joined the Confederacy.",
+   "visual": "Fort Sumter bombardment, 1861",
+   "asset": "sumter",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "34-hour bombardment; 75,000 volunteers; 4 more states"
+  },
+  {
+   "n": 8,
+   "media": "gen",
+   "narration": "Both sides expected a short war. Crowds of spectators even rode out from Washington with picnic baskets to watch the first big battle, at Bull Run in July. They ran for their lives when the Union army broke. Nobody was laughing now.",
+   "visual": "Eager young volunteers marching, picnickers watching a battle",
+   "asset": "bullrun",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Bull Run 21 Jul 1861; spectators picnic"
+  },
+  {
+   "media": "gen",
+   "narration": "On paper, the North held every advantage. It had twenty-two million people against nine million in the Confederacy, a third of whom were enslaved. It built most of the nation's guns, ships, and railways. Its navy set up a blockade that slowly choked Southern trade.",
+   "visual": "Northern factory and foundry versus cotton fields, split image",
+   "asset": "resources",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "~22M vs ~9M (incl ~3.5M enslaved); blockade (Anaconda Plan)",
+   "n": 9
+  },
+  {
+   "n": 10,
+   "media": "still",
+   "narration": "This would be the first industrial war. Railways moved armies in days, not weeks. The telegraph let generals command across hundreds of miles. Rifled muskets could kill at four times the old range, and ironclad ships made wooden navies obsolete almost overnight.",
+   "visual": "Railway, telegraph, and cannon, 1862",
+   "asset": "industrial",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "rifled musket range ~ 4x? verify; Monitor v Virginia Mar 1862"
+  },
+  {
+   "media": "still",
+   "narration": "In March eighteen sixty-two, at Hampton Roads in Virginia, the ironclads Monitor and Virginia fought for hours, and neither could sink the other. Wooden warships were finished.",
+   "visual": "USS Monitor ironclad, 1862",
+   "asset": "monitor",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Monitor v Virginia 9 Mar 1862",
+   "n": 11
+  },
+  {
+   "n": 12,
+   "media": "ltx",
+   "narration": "On the seventeenth of September, eighteen sixty-two, the armies met at Antietam Creek in Maryland. It remains the bloodiest single day in American history, with over twenty-two thousand casualties. Photographers walked the field before the dead were buried.",
+   "visual": "Antietam battlefield dead, Gardner photograph",
+   "asset": "antietam",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Antietam 17 Sep 1862; ~22,700 casualties"
+  },
+  {
+   "n": 13,
+   "media": "still",
+   "narration": "When Mathew Brady exhibited the pictures in New York, people lined up to see them. For the first time, civilians saw the real face of war. One newspaper said Brady had done something very like laying the bodies in our dooryards and along our streets.",
+   "visual": "Brady exhibit The Dead of Antietam",
+   "asset": "brady",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Brady exhibit Oct 1862; NYT 20 Oct 1862 quote ('laid them in our dooryards and along our streets') - verify wording"
+  },
+  {
+   "n": 14,
+   "media": "still",
+   "narration": "Antietam gave Lincoln the victory he needed. Days later he announced that, from the first of January, eighteen sixty-three, all enslaved people in the rebel states would be free. The Emancipation Proclamation did not end slavery everywhere, but it changed what the war was for.",
+   "visual": "Emancipation Proclamation document",
+   "asset": "emancipation",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Prelim 22 Sep 1862; effective 1 Jan 1863; excluded border states"
+  },
+  {
+   "n": 15,
+   "media": "itk",
+   "narration": "And it changed who could fight. Nearly two hundred thousand Black men would serve in the Union army and navy. Their courage proved a point no speech could. After the war, three amendments rewrote the Constitution: the Thirteenth ended slavery, the Fourteenth promised equal protection, and the Fifteenth protected the right to vote.",
+   "visual": "Historian in a study with a copy of the Constitution",
+   "asset": "historian_amend",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "~180k USCT; 13th Dec 1865, 14th 1868, 15th 1870"
+  },
+  {
+   "n": 16,
+   "media": "ltx",
+   "narration": "A Union soldier of the United States Colored Troops looks into the camera and says: “They said we could not fight. We fought. Now let them say we are not free.”",
+   "visual": "Weary Black Union soldier in a blue coat speaking to camera, dramatised",
+   "asset": "usct",
+   "tone": "dramatic"
+  },
+  {
+   "n": 17,
+   "media": "still",
+   "narration": "In July eighteen sixty-three, Lee's army invaded the North and met the Union army at Gettysburg, Pennsylvania. After three days and fifty thousand casualties, Lee retreated. The next day, Vicksburg fell, and the Union held the Mississippi River.",
+   "visual": "Gettysburg battlefield, July 1863",
+   "asset": "gettysburg",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Gettysburg 1-3 Jul 1863; ~50k casualties; Vicksburg 4 Jul 1863"
+  },
+  {
+   "n": 18,
+   "media": "still",
+   "narration": "Four months later, at the cemetery, Lincoln spoke for barely two minutes. He called for a new birth of freedom, and said that government of the people, by the people, for the people, should not perish from the earth. The war, he said, was about whether such a nation could endure.",
+   "visual": "Lincoln at Gettysburg, November 1863",
+   "asset": "address",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Gettysburg Address 19 Nov 1863; ~272 words"
+  },
+  {
+   "n": 19,
+   "media": "still",
+   "narration": "In eighteen sixty-four, Lincoln found a general who would keep fighting: Ulysses Grant. He pinned Lee's army down in Virginia, while William Sherman marched through Georgia, destroying railways and supplies. It was a new kind of war, fought against an enemy's economy as well as its army.",
+   "visual": "General Ulysses S. Grant",
+   "asset": "grant",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Grant gen-in-chief Mar 1864; Sherman Atlanta Sept, March to the Sea Nov-Dec 1864"
+  },
+  {
+   "n": 20,
+   "media": "gen",
+   "narration": "The cost was terrible, and the North grew weary. But Union victories, like the capture of Atlanta, helped Lincoln win re-election in November eighteen sixty-four. The voters had chosen to see it through.",
+   "visual": "Burning Atlanta railway depot, 1864",
+   "asset": "atlanta",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Atlanta fell 2 Sept 1864; Lincoln re-elected Nov 1864"
+  },
+  {
+   "media": "still",
+   "narration": "That November, Sherman left Atlanta and marched sixty thousand men to the coast at Savannah, cutting a path sixty miles wide. His men tore up railways and lived off the land. He wanted Southerners to feel that the war could not be won.",
+   "visual": "Sherman's March to the Sea, Union troops tearing up railroad",
+   "asset": "march",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "~60,000 men; ~285 mi; Savannah 21 Dec 1864; path ~60 mi wide",
+   "n": 21
+  },
+  {
+   "n": 22,
+   "media": "still",
+   "narration": "In April eighteen sixty-five, Richmond fell. A week later, Robert E. Lee met Grant in a farmhouse at Appomattox Court House, and surrendered the Army of Northern Virginia. Grant allowed the Confederate soldiers to go home, keeping their horses for the spring ploughing.",
+   "visual": "Richmond in ruins, April 1865",
+   "asset": "richmond",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Richmond 3 Apr 1865; Appomattox 9 Apr 1865"
+  },
+  {
+   "n": 23,
+   "media": "still",
+   "narration": "Five days later, Lincoln was shot at Ford's Theatre in Washington by John Wilkes Booth, and he died the next morning. The man who had held the Union together would not see it rebuilt.",
+   "visual": "Lincoln's funeral train / Ford's Theatre",
+   "asset": "ford",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "Shot 14 Apr 1865; died 15 Apr 1865"
+  },
+  {
+   "n": 24,
+   "media": "gen",
+   "narration": "About six hundred and twenty thousand soldiers died, historians now think perhaps more than seven hundred thousand. In proportion to the population, that would be about seven million Americans today. Almost every community in the country lost someone.",
+   "visual": "Rows of white grave markers, military cemetery",
+   "asset": "graves",
+   "tone": "sombre",
+   "verify": true,
+   "verify_note": "620k traditional; 750k Hacker 2011; population-equivalent claim"
+  },
+  {
+   "n": 25,
+   "media": "still",
+   "narration": "Then began Reconstruction. Freed people built schools and churches, voted, and were elected to office. But white Southern resistance was fierce, and in eighteen seventy-seven the federal government withdrew its troops. Segregation and disenfranchisement soon followed.",
+   "visual": "Freedmen's Bureau school / freed people, 1866",
+   "asset": "reconstruction",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "Reconstruction 1865-77; troops withdrawn 1877"
+  },
+  {
+   "n": 26,
+   "media": "gen",
+   "narration": "The war also changed the country's structure. Before it, people said the United States are. Afterwards, they said the United States is. The federal government took on a central role in citizenship, money, railways and education.",
+   "visual": "The Capitol dome and federal buildings",
+   "asset": "federal",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "'is/are' grammar shift - widely cited (Shelby Foote), soften"
+  },
+  {
+   "n": 27,
+   "media": "still",
+   "narration": "And it was a glimpse of the future. Rail, telegraph, rifles, trenches and mass armies would return, on a bigger scale, in nineteen fourteen. The first industrial war taught the lesson. The world had not learned it.",
+   "visual": "Trench and soldiers WWI or industrial war link",
+   "asset": "wwi",
+   "tone": "dramatic",
+   "verify": true,
+   "verify_note": "Civil War trench warfare at Petersburg; foreshadows WWI"
+  },
+  {
+   "n": 28,
+   "media": "itk",
+   "narration": "So the Civil War settled two questions. The Union would endure, and slavery would end. A third question, whether freedom would mean equality, was left to the generations that followed. Next time, we look at the war that tried to settle the peace of the world, and failed: why the peace after World War One did not last.",
+   "visual": "Reporter at Appomattox 1865 sign-off",
+   "asset": "reporter_appomattox",
+   "tone": "calm",
+   "verify": true,
+   "verify_note": "next episode: series plan ep 4 (WWII: Why the Peace Failed)"
+  },
+  {
+   "n": 29,
+   "media": "still",
+   "narration": "If you enjoyed this, subscribe, and watch how the Napoleonic Wars redrew Europe.",
+   "visual": "End card",
+   "asset": "endcard",
+   "tone": "calm"
+  }
+ ]
+}

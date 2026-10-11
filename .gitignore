@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+# media and run outputs never go in the repository
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+*.pcm
+*.jpg
+*.jpeg
+*.png
+*.img
+/runs/

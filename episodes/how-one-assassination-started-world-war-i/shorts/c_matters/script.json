@@ -1,0 +1,79 @@
+{
+ "title": "Why World War I still matters: four empires, one shot",
+ "segments": [
+  {
+   "text": "In 1914, four empires ruled much of Europe and the Middle East.",
+   "image": "p13c",
+   "fx": 0.5
+  },
+  {
+   "text": "The German, the Austro-Hungarian, the Russian, and the Ottoman.",
+   "image": "p17",
+   "fx": 0.6
+  },
+  {
+   "text": "Four years later, all four were gone.",
+   "image": "p21",
+   "fx": 0.55
+  },
+  {
+   "text": "Empires that had seemed permanent for centuries vanished in a few short years.",
+   "image": "p02",
+   "fx": 0.5
+  },
+  {
+   "text": "Out of their ruins came new countries: Poland, Czechoslovakia,",
+   "image": "shorts/assets/q_map.png",
+   "fx": 0.5
+  },
+  {
+   "text": "and Yugoslavia, the South Slav state that Princip's movement dreamed of.",
+   "image": "p07",
+   "fx": 0.62
+  },
+  {
+   "text": "Borders were redrawn, often in ways people resented.",
+   "image": "p04",
+   "fx": 0.6
+  },
+  {
+   "text": "The map of Central Europe and the Balkans still carries those lines.",
+   "image": "shorts/assets/q_map.png",
+   "fx": 0.5
+  },
+  {
+   "text": "Those resentments helped bring another world war within a generation.",
+   "image": "p20",
+   "fx": 0.5
+  },
+  {
+   "text": "Roughly nine to ten million soldiers had died.",
+   "image": "p18",
+   "fx": 0.4
+  },
+  {
+   "text": "One shot in Sarajevo.",
+   "image": "p09",
+   "fx": 0.5
+  },
+  {
+   "text": "A century of consequences.",
+   "image": "p23",
+   "fx": 0.6
+  },
+  {
+   "text": "Follow for the full story.",
+   "image": "p21",
+   "fx": 0.55
+  }
+ ],
+ "verify": [
+  "Four empires collapsed (German, Austro-Hungarian, Russian, Ottoman)",
+  "New states Poland, Czechoslovakia, Yugoslavia",
+  "Yugoslavia as Princip movement's aim (South Slav unity) is interpretive",
+  "9-10 million military deaths",
+  "Link to WWII is interpretive"
+ ],
+ "words": 112,
+ "bgm": "shorts/assets/bgm_c.mp3"
+}

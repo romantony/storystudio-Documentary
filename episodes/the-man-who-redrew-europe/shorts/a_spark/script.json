@@ -1,0 +1,74 @@
+{
+ "title": "The Spark: the man who crowned himself",
+ "segments": [
+  {
+   "text": "Napoleon crowned himself emperor.",
+   "image": "coronation_q",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_coronation_q.mp4"
+  },
+  {
+   "text": "It is December second, eighteen oh four, inside Notre-Dame cathedral in Paris.",
+   "image": "coronation",
+   "fx": 0.5
+  },
+  {
+   "text": "The Pope has come all the way from Rome to crown the new emperor.",
+   "image": "coronation",
+   "fx": 0.5
+  },
+  {
+   "text": "But Napoleon takes the crown from the Pope's hands,",
+   "image": "coronation_q",
+   "fx": 0.5
+  },
+  {
+   "text": "and places it on his own head.",
+   "image": "coronation_q",
+   "fx": 0.5
+  },
+  {
+   "text": "Just five years earlier, he was a general who had seized power in a coup.",
+   "image": "brumaire",
+   "fx": 0.5
+  },
+  {
+   "text": "Now he is emperor of the French, with a message for every king in Europe:",
+   "image": "map1812",
+   "fx": 0.5
+  },
+  {
+   "text": "nobody makes me. I make myself.",
+   "image": "coronation_q",
+   "fx": 0.5
+  },
+  {
+   "text": "Within a year, he would win his greatest battle at Austerlitz.",
+   "image": "austerlitz",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_austerlitz.mp4"
+  },
+  {
+   "text": "Within ten, he would rule most of the continent.",
+   "image": "map1812",
+   "fx": 0.5
+  },
+  {
+   "text": "And the rulers who had mocked him would spend years trying to bring him down.",
+   "image": "vienna",
+   "fx": 0.5
+  }
+ ],
+ "verify": [
+  "2 Dec 1804 coronation; Napoleon placed crown on his own head (Pope present)",
+  "'Five years earlier' coup Nov 1799",
+  "Austerlitz within a year (2 Dec 1805)"
+ ],
+ "bgm": "shorts/assets/bgm_a.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow.mp4",
+  "audio": "shorts/assets/tts_follow.wav",
+  "text": "Follow for the full story."
+ },
+ "card_bg": "images_period/coronation.jpg"
+}

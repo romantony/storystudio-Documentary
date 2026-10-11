@@ -1,0 +1,17 @@
+# On the EC2 instance: /opt/docgen/docker-compose.yml, with /opt/docgen/.env next to it (see .env.example).
+services:
+  docgen:
+    image: ${DOCGEN_IMAGE_URI:-docgen:local}
+    env_file: .env
+    environment:
+      DOCGEN_GEOMETRY: ${DOCGEN_GEOMETRY:-1600x900}
+    ports:
+      - "8080:8080"             # API. The security group admits only CloudFront; the API also checks the origin header.
+      - "127.0.0.1:6080:6080"   # desktop (noVNC). Reach it with SSM port forwarding, never publicly.
+    volumes:
+      - /data/docgen/data:/data             # run folders and the Claude config (Storyblocks sign-in, sessions)
+      - /data/docgen/home:/home/docgen      # desktop profile, Firefox profile, shell history
+      # Uncomment to edit the scripts from the desktop and have them survive restarts. Commit changes back to git.
+      # - /data/docgen/app:/app
+    shm_size: 1gb
+    restart: unless-stopped

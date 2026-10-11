@@ -1,0 +1,68 @@
+{
+ "title": "Myth vs Reality: was Napoleon short?",
+ "segments": [
+  {
+   "text": "Myth: Napoleon was tiny.",
+   "image": "gillray",
+   "fx": 0.5
+  },
+  {
+   "text": "Reality: he was about average for his time.",
+   "image": "napoleon_young",
+   "fx": 0.5
+  },
+  {
+   "text": "Records say he measured five feet two inches.",
+   "image": "reforms",
+   "fx": 0.5
+  },
+  {
+   "text": "But that was in French units, and the French inch was longer than the English one.",
+   "image": "sthelena",
+   "fx": 0.5
+  },
+  {
+   "text": "Converted, he stood about five foot six or seven, a little above the typical Frenchman of his day.",
+   "image": "napoleon_young",
+   "fx": 0.5
+  },
+  {
+   "text": "So where did the myth come from?",
+   "image": "gillray",
+   "fx": 0.5
+  },
+  {
+   "text": "British cartoonists, like James Gillray, drew him as Little Boney, a tantrum-throwing child.",
+   "image": "gillray",
+   "fx": 0.5
+  },
+  {
+   "text": "His own soldiers called him the little corporal, as a term of affection.",
+   "image": "austerlitz",
+   "fx": 0.5
+  },
+  {
+   "text": "And he was often surrounded by tall Imperial Guards, which made him look small.",
+   "image": "borodino",
+   "fx": 0.5
+  },
+  {
+   "text": "The cartoons lasted longer than the facts.",
+   "image": "gillray",
+   "fx": 0.5
+  }
+ ],
+ "verify": [
+  "Recorded 5'2\" in French units (~1.686 m); 'a little above typical Frenchman' (avg ~1.64 m)",
+  "Gillray 'Little Boney' caricatures",
+  "'Le petit caporal' nickname affectionate",
+  "Tall Imperial Guard"
+ ],
+ "bgm": "shorts/assets/bgm_b.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow_myth.mp4",
+  "audio": "shorts/assets/tts_follow_myth.wav",
+  "text": "Follow for more history myths."
+ },
+ "card_bg": "images_period/gillray.jpg"
+}

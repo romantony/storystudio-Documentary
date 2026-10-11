@@ -1,0 +1,100 @@
+{
+ "title": "The Spark: one wrong turn that started World War I",
+ "segments": [
+  {
+   "text": "One wrong turn started World War One.",
+   "image": "shorts/assets/q_car.png",
+   "fx": 0.5
+  },
+  {
+   "text": "The heir to the Austro-Hungarian throne is riding through the city with his wife.",
+   "image": "p09",
+   "fx": 0.3
+  },
+  {
+   "text": "A bomb has already missed the archduke's car.",
+   "image": "p10",
+   "fx": 0.25
+  },
+  {
+   "text": "Soon after, his driver takes a wrong turn, and stops to reverse,",
+   "image": "shorts/assets/q_car.png",
+   "fx": 0.5
+  },
+  {
+   "text": "right in front of nineteen-year-old Gavrilo Princip.",
+   "image": "p07",
+   "fx": 0.38
+  },
+  {
+   "text": "Princip steps forward and fires twice.",
+   "image": "shorts/assets/q_stride.png",
+   "fx": 0.5
+  },
+  {
+   "text": "Franz Ferdinand and his wife Sophie are dead within the hour.",
+   "image": "p09",
+   "fx": 0.5
+  },
+  {
+   "text": "One wrong turn. Two bullets.",
+   "image": "shorts/assets/q_car.png",
+   "fx": 0.5
+  },
+  {
+   "text": "Within six weeks, the great powers of Europe were at war.",
+   "image": "p12",
+   "fx": 0.65
+  },
+  {
+   "text": "Millions would die,",
+   "image": "p21",
+   "fx": 0.55
+  },
+  {
+   "text": "and four empires would fall.",
+   "image": "p23",
+   "fx": 0.3
+  },
+  {
+   "text": "It all began with a moment of confusion on a crowded street.",
+   "image": "p01",
+   "fx": 0.3
+  },
+  {
+   "text": "Follow for the full story.",
+   "image": "p10",
+   "fx": 0.55
+  }
+ ],
+ "verify": [
+  "Bomb attempt earlier that morning (bounced off the car)",
+  "Princip aged 19",
+  "Deaths 'within the hour'",
+  "'Six weeks' = 28 June to 4 Aug, ~5.5 weeks"
+ ],
+ "words": 106,
+ "bgm": "shorts/assets/bgm_a.mp3",
+ "intro": {
+  "video": "shorts/assets/rep_itk.mp4",
+  "audio": "shorts/assets/rep_tts.wav",
+  "text": "I'm in Sarajevo. It is June twenty-eighth, nineteen fourteen. Watch what happens next."
+ },
+ "sfx": [
+  {
+   "file": "shorts/assets/sfx_reporter.mp3",
+   "at": 0.2,
+   "volume": 0.7
+  },
+  {
+   "file": "shorts/assets/sfx_car.mp3",
+   "segment": 3,
+   "volume": 0.6
+  },
+  {
+   "file": "shorts/assets/sfx_stride.mp3",
+   "segment": 5,
+   "volume": 0.7
+  }
+ ]
+}

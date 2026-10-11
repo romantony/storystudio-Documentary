@@ -1,0 +1,141 @@
+{
+ "coronation": {
+  "path": "images_period/coronation.jpg",
+  "commons_title": "File:Jacques-Louis David - The Coronation of Napoleon (1805-1807).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Jacques-Louis_David_-_The_Coronation_of_Napoleon_(1805-1807).jpg",
+  "w": 6000,
+  "h": 3773
+ },
+ "trafalgar": {
+  "path": "images_period/trafalgar.jpg",
+  "commons_title": "File:Turner, The Battle of Trafalgar (1822).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Turner,_The_Battle_of_Trafalgar_(1822).jpg",
+  "w": 1800,
+  "h": 1269
+ },
+ "austerlitz": {
+  "path": "images_period/austerlitz.jpg",
+  "commons_title": "File:La bataille d'Austerlitz. 2 decembre 1805 (Fran\u00e7ois G\u00e9rard).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:La_bataille_d%27Austerlitz._2_decembre_1805_(Fran%C3%A7ois_G%C3%A9rard).jpg",
+  "w": 4000,
+  "h": 1983
+ },
+ "moscow": {
+  "path": "images_period/moscow.jpg",
+  "commons_title": "File:Fire of Moscow 1812.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Fire_of_Moscow_1812.jpg",
+  "w": 1369,
+  "h": 976
+ },
+ "borodino": {
+  "path": "images_period/borodino.jpg",
+  "commons_title": "File:Battle of Borodino.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Battle_of_Borodino.jpg",
+  "w": 3000,
+  "h": 2412
+ },
+ "leipzig": {
+  "path": "images_period/leipzig.jpg",
+  "commons_title": "File:Declaration of victory after the Battle of Leipzig, 1813 (by Johann Peter Krafft).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Declaration_of_victory_after_the_Battle_of_Leipzig,_1813_(by_Johann_Peter_Krafft).jpg",
+  "w": 8021,
+  "h": 5694
+ },
+ "elba": {
+  "path": "images_period/elba.jpg",
+  "commons_title": "File:Napoleon at Fontainebleau, 31 March 1814 (by Hippolyte Paul Delaroche).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Napoleon_at_Fontainebleau,_31_March_1814_(by_Hippolyte_Paul_Delaroche).jpg",
+  "w": 1690,
+  "h": 2250
+ },
+ "hundred_days": {
+  "path": "images_period/hundred_days.jpg",
+  "commons_title": "File:Napoleon-Elbe.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Napoleon-Elbe.jpg",
+  "w": 1956,
+  "h": 1366
+ },
+ "sthelena": {
+  "path": "images_period/sthelena.jpg",
+  "commons_title": "File:Von Steuben-Napoleon-diktiert.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Von_Steuben-Napoleon-diktiert.jpg",
+  "w": 1650,
+  "h": 2141
+ },
+ "vienna": {
+  "path": "images_period/vienna.jpg",
+  "commons_title": "File:Congress of Vienna.PNG",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Congress_of_Vienna.PNG",
+  "w": 1883,
+  "h": 1400,
+  "artist": "After Jean-Baptiste Isabey"
+ },
+ "versailles": {
+  "path": "images_period/versailles.jpg",
+  "commons_title": "File:A v Werner - Kaiserproklamation am 18 Januar 1871 (3. Fassung 1885).jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:A_v_Werner_-_Kaiserproklamation_am_18_Januar_1871_(3._Fassung_1885).jpg",
+  "w": 1482,
+  "h": 1097
+ },
+ "reforms": {
+  "path": "images_period/reforms.jpg",
+  "commons_title": "File:Napoleon at the Great St. Bernard - Jacques-Louis David - Google Cultural Institute.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Napoleon_at_the_Great_St._Bernard_-_Jacques-Louis_David_-_Google_Cultural_Institute.jpg",
+  "w": 4897,
+  "h": 5850
+ },
+ "legend": {
+  "path": "images_period/legend.jpg",
+  "commons_title": "File:Paris - D\u00f4me des Invalides - Tombeau de Napol\u00e9on - 002.jpg",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Paris_-_D%C3%B4me_des_Invalides_-_Tombeau_de_Napol%C3%A9on_-_002.jpg",
+  "w": 4752,
+  "h": 3168,
+  "artist": "\nThesupermat"
+ },
+ "gillray": {
+  "path": "images_period/gillray.jpg",
+  "commons_title": "File:Maniac-ravings-or-Little Boney in a strong fit - Js. Gillray inv. & fect. LCCN94509079.jpg",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Maniac-ravings-or-Little_Boney_in_a_strong_fit_-_Js._Gillray_inv._%26_fect._LCCN94509079.jpg",
+  "w": 4642,
+  "h": 3737
+ },
+ "code": {
+  "path": "images_period/code.jpg",
+  "commons_title": "File:Code civil des Fran\u00e7ais (1804).jpg",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Code_civil_des_Fran%C3%A7ais_(1804).jpg",
+  "w": 2751,
+  "h": 3714,
+  "artist": "De l'Imprimiere de la R\u00e9publique"
+ },
+ "waterloo": {
+  "path": "images_period/waterloo.jpg",
+  "commons_title": "File:Battle of Waterloo 1815.PNG",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Battle_of_Waterloo_1815.PNG",
+  "w": 1854,
+  "h": 846
+ },
+ "louisiana": {
+  "path": "images_period/louisiana.jpg",
+  "commons_title": "File:Handover ceremony of Lousiana.jpg",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Handover_ceremony_of_Lousiana.jpg",
+  "w": 1400,
+  "h": 1576
+ }
+}

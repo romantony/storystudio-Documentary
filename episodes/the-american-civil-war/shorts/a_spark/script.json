@@ -1,0 +1,76 @@
+{
+ "title": "The Spark: Fort Sumter",
+ "segments": [
+  {
+   "text": "The first shot of the Civil War hit a fort in Charleston harbour.",
+   "image": "sumter",
+   "fx": 0.5,
+   "clip": "shorts/assets/ltx_sumter.mp4"
+  },
+  {
+   "text": "It is half past four in the morning, April twelfth, eighteen sixty-one.",
+   "image": "divided",
+   "fx": 0.5
+  },
+  {
+   "text": "Confederate guns open fire on Fort Sumter, held by United States soldiers.",
+   "image": "sumter",
+   "fx": 0.5
+  },
+  {
+   "text": "Inside, about eighty men and a few civilians take cover.",
+   "image": "tension",
+   "fx": 0.5
+  },
+  {
+   "text": "The bombardment lasts thirty-four hours.",
+   "image": "sumter",
+   "fx": 0.5
+  },
+  {
+   "text": "Remarkably, nobody on either side is killed by the shelling.",
+   "image": "sumter",
+   "fx": 0.5
+  },
+  {
+   "text": "The garrison surrenders, and the flag comes down.",
+   "image": "inaug",
+   "fx": 0.5
+  },
+  {
+   "text": "Within days, President Lincoln calls for seventy-five thousand volunteers.",
+   "image": "lincoln",
+   "fx": 0.5
+  },
+  {
+   "text": "Four more states leave the Union to join the Confederacy.",
+   "image": "divided",
+   "fx": 0.5
+  },
+  {
+   "text": "Both sides think it will be over in weeks.",
+   "image": "bullrun",
+   "fx": 0.5
+  },
+  {
+   "text": "People even brought picnics to watch the first big battle that summer.",
+   "image": "bullrun",
+   "fx": 0.5
+  },
+  {
+   "text": "Instead, it will last four years.",
+   "image": "graves",
+   "fx": 0.5
+  }
+ ],
+ "verify": [
+  "Fort Sumter bombardment: 12-13 April 1861; garrison ~85 (Anderson: 85 officers/men); no combat deaths from bombardment (verify; a gun accident killed one during surrender salute); Lincoln 75,000 on 15 Apr; VA, AR, TN, NC joined"
+ ],
+ "bgm": "shorts/assets/bgm_a.mp3",
+ "outro": {
+  "video": "shorts/assets/itk_follow.mp4",
+  "audio": "shorts/assets/tts_follow.wav",
+  "text": "Follow for the full story."
+ },
+ "card_bg": "images_period/sumter.jpg"
+}
