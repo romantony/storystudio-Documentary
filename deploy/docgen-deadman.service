@@ -1,0 +1,5 @@
+[Unit]
+Description=stop the instance when docgen has been idle
+[Service]
+Type=oneshot
+ExecStart=/opt/docgen/deadman.sh

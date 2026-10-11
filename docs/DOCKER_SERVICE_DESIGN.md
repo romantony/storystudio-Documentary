@@ -531,9 +531,10 @@ Code is in `~/docgen` (a local git repository, nothing committed or pushed yet).
 | API server `api/server.py` | Written. 27 contract checks pass against a mock runner: auth, CloudFront origin header, validation, idempotency, busy, both checkpoints with revise, signed webhooks with ordered `seq`, heartbeats, events, file download, failure, cancel. |
 | `prompts/produce.md` | Written. Not yet exercised by a real Claude run. |
 | Image | Builds locally for amd64 (4.0 GB). In the container: desktop reachable over noVNC, Firefox loads pages, Claude Code 2.1.296, ffmpeg renders a segment with captions, the API runs a mock job to success. |
-| arm64 build | Not done. This machine has no arm64 emulation; CodeBuild will be the first arm64 build. Firefox and VS Code arm64 packages were confirmed to exist. |
+| arm64 build | Done by CodeBuild on 2026-10-11: build `docgen-image:3042422a` succeeded in about 3 minutes from commit `64db9c5`. The in-build smoke test printed `aarch64`, ffmpeg 6.1.1 and Firefox 157. Image in ECR as `docgen:latest` and `docgen:64db9c5`, 1.01 GB compressed. Not yet run on an instance. |
 | Paid calls through the ported toolkit, Storyblocks sign-in in the container, a real end-to-end job | Not done. |
-| AWS resources (ECR, CodeBuild, instance, CloudFront) | Not created. |
+| AWS resources | Created in us-east-1 (profile `default`): ECR repository `docgen` (scan on push, keep last 10 images), IAM role `docgen-codebuild-role` (push to that repository and its own logs only), CodeBuild project `docgen-image` (ARM, large, privileged, source: the public GitHub repository, branch `main`, started by hand). Not created: the instance, CloudFront, secrets. |
+| ECR scan of the first image | 18 critical and 194 high findings. The critical ones are in Ubuntu 24.04's ffmpeg 6.1.1 packages and `libcjson1`. Run `apt-get upgrade` in the image build and re-scan before going live. |
 
 ## 12. Decisions still needed from you
 

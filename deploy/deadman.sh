@@ -3,7 +3,9 @@
 # no job running, no authenticated API call for IDLE_LIMIT seconds, and no keep-awake tag. Covers an orchestrator crash.
 set -euo pipefail
 IDLE_LIMIT=${IDLE_LIMIT:-1200}
-source /opt/docgen/.env
+# read the two values needed instead of sourcing the file: API keys may contain shell characters
+envval() { grep -m1 "^$1=" /opt/docgen/.env | cut -d= -f2- || true; }
+DOCGEN_API_TOKEN=$(envval DOCGEN_API_TOKEN); DOCGEN_ORIGIN_SECRET=$(envval DOCGEN_ORIGIN_SECRET)
 TOK=$(curl -s -X PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 60")
 IID=$(curl -s -H "X-aws-ec2-metadata-token: $TOK" http://169.254.169.254/latest/meta-data/instance-id)
 KEEP=$(aws ec2 describe-tags --region "${AWS_DEFAULT_REGION:-us-east-1}" --filters "Name=resource-id,Values=$IID" "Name=key,Values=keep-awake" --query 'Tags[0].Value' --output text)

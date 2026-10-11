@@ -5,7 +5,8 @@ ARG TARGETARCH
 ARG GIT_SHA=dev
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# upgrade first: the base image lags behind Ubuntu's security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
       xfce4 xfce4-terminal dbus-x11 tigervnc-standalone-server tigervnc-tools novnc websockify \
       ffmpeg python3 python3-pip python3-pil git curl ca-certificates gnupg supervisor sudo \
       fonts-dejavu-core fonts-noto-color-emoji xdg-utils nano less jq unzip procps \

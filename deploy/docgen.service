@@ -3,10 +3,12 @@
 Description=docgen container
 After=docker.service network-online.target
 Requires=docker.service
+Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/opt/docgen
+ExecStartPre=-/opt/docgen/fetch-env.sh
 ExecStartPre=/bin/bash -c 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(grep ^DOCGEN_IMAGE_URI= .env | cut -d= -f2 | cut -d/ -f1)'
 ExecStartPre=-/usr/bin/docker compose pull
 ExecStart=/usr/bin/docker compose up -d
