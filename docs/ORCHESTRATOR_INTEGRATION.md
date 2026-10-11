@@ -444,5 +444,5 @@ aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
 - **The access key** for `docgen-orchestrator` (section 2) has not been created.
 - **If the orchestrator's address changes,** edit the list in the CloudFront function `docgen-allow-orchestrator` and publish it; until then every call gets 403.
-- **The upload has not been run by a real job on the instance.** The upload step and the CDN were tested from a development machine; the instance's permission to write to the bucket is in place but unexercised.
+- **The upload has not been run by a real job on the instance.** A test file uploaded from inside the instance's container was readable through the CDN, and writing outside `docgen/` was refused.
 - **A call through the public URL after a stop and start** has not been checked from the orchestrator. On the instance itself the service came back ready after a restart.
