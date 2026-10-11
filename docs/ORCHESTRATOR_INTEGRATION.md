@@ -9,6 +9,7 @@ This is the guide for the QM Orchestrator on the VPS. It covers everything neede
 | API base URL | `https://doc-gen.ai-storystudio.com` |
 | Transport | HTTPS only, through CloudFront. Plain HTTP is refused. |
 | Authentication | `Authorization: Bearer <DOCGEN_API_TOKEN>` on every call |
+| Allowed caller | Only `129.121.78.38` (the orchestrator on Bluehost), over IPv4. Every other address gets 403 from CloudFront. |
 | EC2 instance | `i-0a6c5182dd9377129`, `c9g.xlarge`, region `us-east-1` |
 | Concurrency | One job at a time. The orchestrator owns the queue. |
 | Instance state between jobs | Stopped. The orchestrator starts it for a job and stops it afterwards. |
@@ -28,7 +29,7 @@ While the instance is stopped or booting, the URL answers with a CloudFront erro
 aws ssm get-parameter --name /docgen/DOCGEN_API_TOKEN --with-decryption --query Parameter.Value --output text
 ```
 
-**AWS permissions** to start and stop the instance. Not created yet: make an IAM user or role for the orchestrator with only this policy.
+**AWS permissions** to start and stop the instance. The IAM user `docgen-orchestrator` exists with only the policy below. It has no access key yet: create one in the IAM console (user `docgen-orchestrator`, Security credentials, Create access key) and put it in the orchestrator's configuration.
 
 ```json
 {
@@ -36,7 +37,7 @@ aws ssm get-parameter --name /docgen/DOCGEN_API_TOKEN --with-decryption --query 
   "Statement": [
     {"Effect": "Allow", "Action": ["ec2:StartInstances", "ec2:StopInstances"],
      "Resource": "arn:aws:ec2:us-east-1:<account-id>:instance/i-0a6c5182dd9377129"},
-    {"Effect": "Allow", "Action": "ec2:DescribeInstances", "Resource": "*"}
+    {"Effect": "Allow", "Action": ["ec2:DescribeInstances", "ec2:DescribeInstanceStatus"], "Resource": "*"}
   ]
 }
 ```
@@ -90,6 +91,7 @@ Every error has the same shape:
 | 400 | `invalid_field` | Payload failed validation; `field` and `message` say where | Fix the request; do not retry as is |
 | 401 | `unauthorized` | Missing or wrong bearer token | Check the token |
 | 403 | `forbidden` | The call did not come through CloudFront | Use the base URL above |
+| 403 | (CloudFront page, not JSON) | The caller's address is not the allowed one | Call from the orchestrator host; see section 1 |
 | 404 | `not_found` | Unknown job or file | |
 | 409 | `busy` | Another job is running or awaiting input; `current_job_id` names it | Keep the request queued |
 | 409 | `not_awaiting_input` | `respond` called when the job is not paused | Re-read the status |
@@ -365,6 +367,8 @@ create table docgen_events (
 
 ## 9. Trying it by hand
 
+The API calls below work only from the orchestrator host, because of the address restriction.
+
 ```bash
 BASE=https://doc-gen.ai-storystudio.com
 TOKEN=$(aws ssm get-parameter --name /docgen/DOCGEN_API_TOKEN --with-decryption --query Parameter.Value --output text)
@@ -381,7 +385,7 @@ aws ec2 stop-instances --instance-ids i-0a6c5182dd9377129
 
 - **Storyblocks sign-in** on the instance desktop. Until it is done, health reports `ready: false` and only requests with `visuals.stock: false` are accepted.
 - **A real job has not been run on the instance.** The API, webhooks, checkpoints and cancel were tested with a mock runner; the production path with Claude has not been exercised end to end.
-- **No restriction on who can call the URL.** The bearer token is the only gate. A firewall rule limiting callers to the VPS address can be added once that address is known.
-- **The orchestrator's IAM identity** (section 2) has not been created.
+- **The access key** for `docgen-orchestrator` (section 2) has not been created.
+- **If the orchestrator's address changes,** edit the list in the CloudFront function `docgen-allow-orchestrator` and publish it; until then every call gets 403.
 - **Output bucket** not chosen; outputs are downloaded through the API for now.
 - **Restart behaviour of the CloudFront connection** after a stop and start has not been tested.
