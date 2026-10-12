@@ -9,6 +9,7 @@ meta.json:
 Writes out/youtube_metadata.md, out/youtube_metadata_shorts.md, out/youtube_metadata.json, out/credits.md."""
 import json, os, sys
 from .common import ASSETS, load_script, mkdirs
+PRODUCED = "Produced @ https://ai-storystudio.com, https://agent.ai-storystudio.com"
 def ts(x): x = int(x); return f"{x // 60:02d}:{x % 60:02d}"
 def main(cmd, argv):
     if not argv: sys.exit(__doc__)
@@ -31,7 +32,7 @@ def main(cmd, argv):
     PA = {k: v for k, v in PA.items() if any(e["asset"] == k and e["src"] == v["path"] for e in tl.values())}   # credit only archive files actually on screen
     att = [f"{PA[a]['commons_title'][5:]} by {PA[a].get('artist') or 'unknown'}, {PA[a]['license']}" for a in dict.fromkeys(used) if a in PA and PA[a].get("needs_attribution", "BY" in PA[a]["license"])]
     if att: desc += "\n\nAttribution (Wikimedia Commons): " + "; ".join(att) + "."
-    desc += "\n\n" + L.get("disclosure", "Narration and music in this video are AI-generated.") + "\n\n" + L.get("hashtags", "")
+    desc += "\n\n" + L.get("disclosure", "Narration and music in this video are AI-generated.") + "\n\n" + PRODUCED + "\n\n" + L.get("hashtags", "")
     ver = [(n, s["asset"], s["verify_note"]) for n, s in sc.items() if s.get("verify")]
     for ph in ("[PLAYLIST URL]", "[EPISODE"):
         if ph in desc: warn.append(f"placeholder {ph}...] still in the description")
@@ -53,10 +54,10 @@ def main(cmd, argv):
         cred = [f"- {PA[a]['commons_title'][5:]} — {PA[a]['license']}" + (f" — by {PA[a]['artist']}" if PA[a].get("needs_attribution") and PA[a].get("artist") else "") for a in imgs if a in PA]
         vv = s_.get("verify", [])
         smd.append(f"## Day {v.get('day', '?')}: {s_.get('title', sid)}\n\n**Title:** {v['title']}\n\n**Alternatives:** {'; '.join(v.get('alternatives', []))}\n\n**Cover text:** {v.get('cover_text', '')}\n\n"
-                   f"**Tags:** {v.get('tags', '')}\n\n**Hashtags:** {v.get('hashtags', '')}\n\n**Pinned comment:** {v.get('pinned_comment', '')}\n\n### Description\n\n{v.get('description', '')}\n\n{v.get('hashtags', '')}\n\n"
+                   f"**Tags:** {v.get('tags', '')}\n\n**Hashtags:** {v.get('hashtags', '')}\n\n**Pinned comment:** {v.get('pinned_comment', '')}\n\n### Description\n\n{v.get('description', '')}\n\n{PRODUCED}\n\n{v.get('hashtags', '')}\n\n"
                    "### Credits (Wikimedia Commons)\n\n" + "\n".join(cred) + f"\n\nAI-generated images: {', '.join(a for a in imgs if a not in PA) or 'none'}\n\n**Verify before publishing:**\n" + "\n".join(f"- {x}" for x in vv) + "\n")
         if len(v["title"]) > 60: warn.append(f"short {sid}: title over 60 characters")
-        out[sid] = dict(v, credits=cred, verify=vv, video=f"shorts/{sid}/out/{sid}.mp4")
+        out[sid] = dict(v, description=v.get("description", "") + "\n\n" + PRODUCED, credits=cred, verify=vv, video=f"shorts/{sid}/out/{sid}.mp4")
     if M.get("shorts"): open("out/youtube_metadata_shorts.md", "w").write("\n".join(smd))
     out["warnings"] = warn; json.dump(out, open("out/youtube_metadata.json", "w"), indent=1, ensure_ascii=False)
     print(json.dumps({"chapters": len(keep), "verify": len(ver), "warnings": warn}))

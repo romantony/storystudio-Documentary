@@ -100,6 +100,9 @@ def main(cmd, argv):
         d.text((W // 2 - 90, y + 40), lab, font=f, fill=col, stroke_width=6, stroke_fill=(0, 0, 0))
     ft = ImageFont.truetype(BOLD, 56); t1 = sc.get("series_title", "WARS THAT SHAPED THE WORLD")
     d.text(((W - d.textlength(t1, font=ft)) / 2, 1500), t1, font=ft, fill=(255, 215, 0), stroke_width=5, stroke_fill=(0, 0, 0))
+    fp = ImageFont.truetype(BOLD, 36)
+    for k, t in enumerate(["Produced @", "https://ai-storystudio.com", "https://agent.ai-storystudio.com"]):
+        d.text(((W - d.textlength(t, font=fp)) / 2, 1600 + k * 50), t, font=fp, fill=(220, 220, 220), stroke_width=4, stroke_fill=(0, 0, 0))
     bg.save(f"{D}/build/card.jpg", quality=95)
     cmds.append(f"ffmpeg -y -loglevel error -loop 1 -framerate {FPS} -i {D}/build/card.jpg -vf \"fade=t=in:st=0:d=0.2,format=yuv420p\" -t {CARD_S} -c:v libx264 -preset veryfast -crf 18 {D}/build/segcard.mp4")
     open(f"{D}/build/seg_cmds.txt", "w").write("\n".join(cmds) + "\n"); lst.append("file 'segcard.mp4'\n")

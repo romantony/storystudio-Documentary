@@ -4,6 +4,7 @@ import sys
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from .common import ARCHIVE, find_image
 W, H = 1920, 1080
+PRODUCED, URLS = "Produced @", ("https://ai-storystudio.com,", "https://agent.ai-storystudio.com")
 EMO = "/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf"; BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 def emoji(ch, size=230):
     im = Image.new("RGBA", (136, 128), (0, 0, 0, 0)); ImageDraw.Draw(im).text((0, 0), ch, font=ImageFont.truetype(EMO, 109), embedded_color=True)
@@ -19,6 +20,8 @@ def card(bgpath, out, line, series):
         d.text((cx - d.textlength(label, font=f) / 2, 335), label, font=f, fill=col, stroke_width=6, stroke_fill=(0, 0, 0))
     for k, (txt, col, size) in enumerate([(series, (255, 215, 0), 74), (line, (255, 255, 255), 52)]):
         ff = ImageFont.truetype(BOLD, size); d.text(((W - d.textlength(txt, font=ff)) / 2, 790 + k * 105), txt, font=ff, fill=col, stroke_width=6, stroke_fill=(0, 0, 0))
+    fp = ImageFont.truetype(BOLD, 34); t = PRODUCED + "  " + "  ".join(URLS)
+    d.text(((W - d.textlength(t, font=fp)) / 2, 990), t, font=fp, fill=(220, 220, 220), stroke_width=4, stroke_fill=(0, 0, 0))
     bg.save(out, quality=95); print(out)
 def main(cmd, argv):
     g = lambda k, d=None: argv[argv.index(k) + 1] if k in argv else d
