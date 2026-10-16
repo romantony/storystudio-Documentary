@@ -3,6 +3,8 @@
 FROM ubuntu:24.04
 ARG TARGETARCH
 ARG GIT_SHA=dev
+# Pinned: an unpinned install pulled 2.1.301 on 2026-10-15, whose postinstall npm skipped (no native binary). Bump deliberately; the smoke test in buildspec.yml gates the push.
+ARG CLAUDE_CODE_VERSION=2.1.296
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8
 
 # upgrade first: the base image lags behind Ubuntu's security updates
@@ -24,7 +26,7 @@ RUN install -d -m 0755 /etc/apt/keyrings \
 # Node 24 and Claude Code
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
  && apt-get install -y --no-install-recommends nodejs && rm -rf /var/lib/apt/lists/* \
- && npm install -g @anthropic-ai/claude-code && npm cache clean --force
+ && npm install -g --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} && npm cache clean --force
 
 # VS Code for maintaining the scripts from the desktop
 RUN A=$([ "$TARGETARCH" = "arm64" ] && echo arm64 || echo x64) \
