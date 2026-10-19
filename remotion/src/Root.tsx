@@ -1,5 +1,6 @@
 import React from 'react';
 import {Composition} from 'remotion';
+import {Cover, CoverProps} from './Cover';
 import {Overlay, OverlayProps} from './Overlay';
 
 // One composition. Size, length and frame rate come from the props, so the same bundle serves 16:9 and 9:16.
@@ -8,7 +9,10 @@ const defaults: OverlayProps = {
   title: 'Abraham Lincoln', subtitle: '16th President of the United States',
 };
 
+const meta = ({props}: {props: any}) => ({width: props.width, height: props.height, fps: props.fps, durationInFrames: Math.max(2, Math.round(props.seconds * props.fps))});
+
 export const Root: React.FC = () => (
+  <>
   <Composition
     id="Overlay"
     component={Overlay}
@@ -22,4 +26,7 @@ export const Root: React.FC = () => (
       durationInFrames: Math.max(2, Math.round(props.seconds * props.fps)),
     })}
   />
+  <Composition id="Cover" component={Cover as any} defaultProps={{lines: ['90', 'DAYS'], width: 1080, height: 1920, fps: 30, seconds: 1} as CoverProps}
+    width={1080} height={1920} fps={30} durationInFrames={30} calculateMetadata={meta} />
+  </>
 );

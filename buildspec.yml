@@ -14,7 +14,8 @@ phases:
     commands:
       # Build under the commit tag only; `latest` is not touched until the smoke test passes.
       - docker build --build-arg GIT_SHA=$TAG -t $REGISTRY/$REPO:$TAG .
-      - docker run --rm --entrypoint bash $REGISTRY/$REPO:$TAG -c "uname -m && ffmpeg -version | head -1 && firefox --version && claude --version && python3 -m docgen 2>&1 | head -1 && cd /tmp && python3 -m docgen overlay --type stamp --text Overlay-test --seconds 2 --out /tmp/t.mov && ffprobe -v error -show_entries stream=codec_name,pix_fmt,nb_frames -of csv=p=0 /tmp/t.mov"
+      - |
+        docker run --rm --entrypoint bash $REGISTRY/$REPO:$TAG -c "uname -m && ffmpeg -version | head -1 && firefox --version && claude --version && python3 -m docgen 2>&1 | head -1 && cd /tmp && python3 -m docgen overlay --type stamp --text Overlay-test --seconds 2 --out /tmp/t.mov && ffprobe -v error -show_entries stream=codec_name,pix_fmt,nb_frames -of csv=p=0 /tmp/t.mov && python3 -c 'from docgen import thumbnail as T; T.headline({\"width\": 1080, \"height\": 1920, \"fps\": 30, \"seconds\": 1, \"lines\": [\"90\", \"DAYS\"], \"emphasis\": 0}, \"/tmp/h.png\"); from PIL import Image; im = Image.open(\"/tmp/h.png\"); assert im.size == (1080, 1920) and im.mode == \"RGBA\", (im.size, im.mode)'"
       # Reached only if every command above succeeded (CodeBuild stops a phase at its first failure).
       - docker push $REGISTRY/$REPO:$TAG
       - docker tag $REGISTRY/$REPO:$TAG $REGISTRY/$REPO:latest

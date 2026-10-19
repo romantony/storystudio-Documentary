@@ -44,6 +44,7 @@ RUN userdel -r ubuntu 2>/dev/null || true; useradd -m -u 1000 -s /bin/bash docge
 COPY --chown=docgen:docgen docgen/ /app/docgen/
 COPY --chown=docgen:docgen api/ /app/api/
 COPY --chown=docgen:docgen prompts/ /app/prompts/
+COPY --chown=docgen:docgen rubrics/ /app/rubrics/
 COPY --chown=docgen:docgen remotion/ /app/remotion/
 COPY deploy/supervisord.conf /etc/docgen/supervisord.conf
 COPY deploy/entrypoint.sh /usr/local/bin/docgen-entrypoint

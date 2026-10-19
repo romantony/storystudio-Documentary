@@ -18,7 +18,10 @@ Everything is run from the run folder with `python3 -m docgen <command>`. Each c
 | `tts`, `timings` | Narration (Gemini TTS) and Whisper word timings, for the long video or `--short <id>`. |
 | `assemble` | Build the long video from `script/script.json`. |
 | `short` | Build one Short from `shorts/<id>/script.json`. |
-| `card`, `thumb` | End card and thumbnail. |
+| `card` | End card. |
+| `thumbnail` | Cinematic thumbnails for the long video and every Short: plan, generate (Nano Banana 2.1), score, select, cover frame. |
+| `analyst` | `analyst thumbnail`: the Thumbnail Analyst scores the candidates against its rubric. |
+| `thumb` | Fallback single thumbnail. |
 | `overlay` | Animated text over a scene, an image or a video (Remotion). Normally requested in the script; see "Text overlays". |
 | `metadata` | Write the metadata and credits files from a `meta.json` you write. |
 | `sheet` | Contact sheets of images or video frames, so you can look at them with the Read tool. |
@@ -28,7 +31,7 @@ The Storyblocks MCP tools (`mcp__storyblocks__*`) search and license stock foota
 
 ## Reporting
 
-Call `python3 -m docgen status --stage <stage> --message "<one plain sentence>"` when you start each stage, and again with a new message when something worth knowing happens inside a long stage. Stages, in order: `setup`, `script`, `assets_queued`, `assets_ready`, `narration`, `timings`, `build_long`, `build_shorts`, `metadata`, `upload_outputs`. Use `--next "<step>"` (repeatable) to say what comes next, `--warn "<text>"` for anything the reviewer must know, `--output kind=path` for each finished file (kinds: `long_video`, `short`, `thumbnail`, `metadata`, `shorts_metadata`, `credits`), and `--cost name=count` for paid generations (for example `--cost infinitetalk_clips=3`).
+Call `python3 -m docgen status --stage <stage> --message "<one plain sentence>"` when you start each stage, and again with a new message when something worth knowing happens inside a long stage. Stages, in order: `setup`, `script`, `assets_queued`, `assets_ready`, `narration`, `timings`, `build_long`, `build_shorts`, `metadata`, `upload_outputs`. Use `--next "<step>"` (repeatable) to say what comes next, `--warn "<text>"` for anything the reviewer must know, `--output kind=path` for each finished file (kinds: `long_video`, `short`, `thumbnail`, `short_thumbnail`, `metadata`, `shorts_metadata`, `credits`), and `--cost name=count` for paid generations (for example `--cost infinitetalk_clips=3`).
 
 Write messages for someone who has not seen this session: say what was produced and in what quantity ("Long script written: 29 scenes, 1,160 words"), and say plainly when something is weak or failed.
 
@@ -61,7 +64,33 @@ When the job is complete and any final checkpoint is approved, finish with `stat
 
 **Build.** Run `assemble --run`, then `tts`, `timings` and `short <id> --run` for each Short. Afterwards make frame sheets with `sheet --video` and look at them. Check that captions do not cover a speaker's face, that overlays are spelled correctly and do not hide a face or collide with captions, that no scene is black or shows the wrong picture, and that Shorts do not hold one image for most of their length. Fix and rebuild what is wrong; existing segments are reused, so a rebuild is cheap.
 
-**Metadata.** Write `meta.json` and run `metadata`. Chapter times and credits are computed for you. The description must say what is AI-generated, and must name any dramatised character as invented. Then `card`, `thumb` (read the thumbnail to confirm the text is spelled correctly), and `upload --prefix <output.prefix>`. Register every finished file with `status --output` before uploading: only registered files are uploaded, and each one gets a public `url` in the status. If the upload reports a failure, try it once more, and if it still fails say so in a warning.
+**Thumbnails: the long video and every Short.** After the Shorts are built, make the thumbnails (`/app/docgen/thumbnail.py` has the formats). A thumbnail tells the video's story in about one second at phone size, in five layers:
+- a contextual cinematic background, kept subordinate;
+- one dominant hero subject (35–50% of the storytelling area);
+- 1–3 smaller supporting elements;
+- an oversized dimensional headline of 2–5 words;
+- restrained cinematic effects.
+
+Pictures come from Nano Banana 2.1 on KIE, and the headline is typeset exactly on top of them.
+1. **Plan:** write `thumb/plan.json` with one target `long` (16:9) and one per Short (9:16). For each target:
+   - the story it tells, the hero `subject`, the `secondary` elements and the `background`;
+   - the exact headline `text`, split into `lines`, with the number or key word as `emphasis`. Use `thumbnail.text` from the request when it is set. Otherwise write 2–5 words that add to the title rather than repeat it, a striking sourced number where there is one.
+   - `placement` (16:9), `colors`, `accent`;
+   - `refs`: up to 6 public URLs of the archive or stock pictures you used, so real people, machines and places look right;
+   - `accuracy`: what must be period-correct.
+
+   Add the top-level `era`. Give every Short its own angle. Choose the `preset` (`python3 -m docgen thumbnail presets`) when `thumbnail.style` is `"auto"`, the default: `epic_historical` for history and wars, `economic_explainer` for markets, commodities and economics, `mystery_discovery` for science and the unexplained, `cinematic_infographic` otherwise. Run `python3 -m docgen thumbnail check` and fix every error.
+2. **Generate:** `python3 -m docgen thumbnail generate`. It makes `thumbnail.candidates` per target (default 3). Run it in the background; it takes a few minutes.
+3. **Score:** run `python3 -m docgen analyst thumbnail` in the background and wait for `review/thumbnail.json`. The Thumbnail Analyst opens every candidate and scores it.
+4. **Pick:** `python3 -m docgen thumbnail select`. It takes the best candidate per target that has the exact text, is accurate and scores at least 80.
+   - If a target falls short, revise its plan from the analyst's findings and run `thumbnail generate --only <id> --more 3`, then score and select again.
+   - After two rounds, run `thumbnail select --accept-best` and say so in a warning.
+5. **Insert:** put each Short's thumbnail into it as a cover frame with `python3 -m docgen thumbnail cover --short <id>` (when `thumbnail.shorts_cover`). YouTube Shorts take their thumbnail from a frame.
+6. **Report:** look at the chosen thumbnails yourself. Record `--cost thumbnail_images=<generated>`.
+
+If `KIE_API_KEY` is not set (`generate` says so), make the old single thumbnail with `thumb` and warn that the cinematic thumbnails were skipped.
+
+**Metadata.** Write `meta.json` and run `metadata`. Chapter times and credits are computed for you. The description must say what is AI-generated, and must name any dramatised character as invented. Then `card`, and `upload --prefix <output.prefix>`. Register every finished file with `status --output` before uploading, including `thumbnail=thumb/thumbnail.jpg` and `short_thumbnail=shorts/<id>/thumb/thumbnail.jpg` for each Short: only registered files are uploaded, and each one gets a public `url` in the status. If the upload reports a failure, try it once more, and if it still fails say so in a warning.
 
 ## Things you cannot do, and must say
 

@@ -42,6 +42,13 @@ class Visuals(BaseModel):
     archive: bool = True; stock: bool = True; image_gen: bool = True
     talking_clips: int = Field(3, ge=0, le=5); animated_stills: int = Field(10, ge=0, le=15)
     dramatised_character: bool = True; allow_graphic_archive: bool = False; text_overlays: bool = True
+class Thumbnail(BaseModel):   # cinematic thumbnails (docgen/thumbnail.py): Nano Banana 2.1 on KIE, the headline typeset exactly
+    style: Literal["cinematic_infographic", "epic_historical", "superhero_showdown", "mystery_discovery", "economic_explainer", "auto"] = "auto"
+    candidates: int = Field(3, ge=1, le=4)              # per thumbnail; the Thumbnail Analyst scores them and the best is used
+    text: Optional[str] = Field(None, min_length=1, max_length=32)   # the long video's exact headline; default: Claude writes 2-5 words
+    text_mode: Literal["overlay", "model"] = "overlay"
+    shorts: bool = True; shorts_cover: bool = True      # a 9:16 thumbnail for every Short, put into the Short as a cover frame
+    resolution: Literal["1K", "2K", "4K"] = "2K"
 class Limits(BaseModel):
     max_runtime_minutes: int = Field(150, ge=30, le=300); max_llm_turns: int = Field(400, ge=20, le=2000)
 class Output(BaseModel):
@@ -56,7 +63,7 @@ class Callback(BaseModel):
 class Req(BaseModel):
     request_id: str = Field(..., min_length=1, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
     topic: str = Field(..., min_length=1, max_length=200); synopsis: str = Field(..., min_length=1, max_length=1000)
-    series: Series = Series(); long: Long = Long(); shorts: Shorts = Shorts(); visuals: Visuals = Visuals()
+    series: Series = Series(); long: Long = Long(); shorts: Shorts = Shorts(); visuals: Visuals = Visuals(); thumbnail: Thumbnail = Thumbnail()
     review_mode: Literal["checkpoints", "auto"] = "checkpoints"; model: str = "claude-sonnet-5-5"
     limits: Limits = Limits(); output: Output = Output(); callback: Callback
 class Respond(BaseModel):
@@ -209,7 +216,7 @@ def storyblocks():
     _mcp.update(t=time.time(), v=v); return v
 def checks():
     c = {"storyblocks_mcp": storyblocks()}
-    for name, env in (("anthropic", "ANTHROPIC_API_KEY"), ("gemini", "GEMINI_API_KEY"), ("runpod", "RUNPOD_API_KEY"), ("comfy", "COMFY_API_KEY")):
+    for name, env in (("anthropic", "ANTHROPIC_API_KEY"), ("gemini", "GEMINI_API_KEY"), ("runpod", "RUNPOD_API_KEY"), ("comfy", "COMFY_API_KEY"), ("kie", "KIE_API_KEY")):
         c[name] = "set" if os.environ.get(env) else "missing"     # presence only; validity shows up when a job uses the key
     c["callback_secret"] = "set" if SECRET else "missing"
     c["disk_free_gb"] = round(shutil.disk_usage(RUNS).free / 1e9, 1)
