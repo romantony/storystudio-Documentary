@@ -38,7 +38,7 @@ class Series(BaseModel):
     next_episode_title: Optional[str] = None; playlist_url: Optional[str] = None
 class Long(BaseModel):
     enabled: bool = True; aspect: Literal["16:9"] = "16:9"
-    target_seconds: int = Field(480, ge=240, le=1800); narrator_voice: str = "Charon"
+    target_seconds: int = Field(480, ge=60, le=1800); narrator_voice: str = "Charon"
     format: Literal["explainer", "documentary"] = "explainer"   # documentary: the series playbook (beats, research, separate fact check); prompts/documentary_format.md
 class Shorts(BaseModel):
     count: int = Field(3, ge=0, le=3); aspect: Literal["9:16"] = "9:16"
