@@ -6,7 +6,7 @@
 
 | Playbook item | In the image |
 |---|---|
-| Runtime limit 720 → 900 s | `long.target_seconds` up to 1800; `long.format: "documentary"` needs 600+ |
+| Runtime limit 720 → 900 s | `long.format: "documentary"` takes 300, 600, 900 or 1800 s (5, 10, 15, 30 min); beat tables for all four |
 | Beat markers, 15/30-min templates | `prompts/documentary_format.md`, appended for the documentary format only |
 | Separate fact-validation pass | `docgen factcheck` (fresh Claude session, WebSearch/WebFetch, claims table) |
 | Charts from FRED, BLS, EIA, IMF | `docgen data` (fetchers) and `docgen chart` (Remotion `Chart` template: animated line or bar, source printed, clip + still); built in doc-gen's own Remotion instead of the infographic image, so there is no cross-service call. Needs `FRED_API_KEY` and `EIA_API_KEY` (free) in `/docgen/`, `BLS_API_KEY` optional; IMF needs none. `put-params.py` stores them from the environment. |
@@ -38,7 +38,7 @@ First episode publishes **2 Nov 2026**; the pilot (History of Money 1, Gate 1) h
 |---|---|---|
 | ECS entry point: starts or resumes a job, follows the Claude run, uploads review files and outputs, sends `SendTaskSuccess/Failure/Heartbeat`, waits for webhooks. Ported from infogen. | `api/task.py`; `server.py`: `HOOKS.task_done()` | `tests/test_task.py` (21 checks) |
 | Task definition `docgen-worker` (ARM64, 2 vCPU / 8 GB / 100 GB scratch, EFS `/data/runs` and `/data/claude`, SSM secrets, S3 + CDN env). EFS ids are placeholders. | `deploy/ecs-task-definition.json` | – |
-| Documentary format on the request: `long.format: "documentary"`, `long.target_seconds` up to 1800 (documentary needs ≥ 600), `series.theme/part/total_parts/next_episode_url`; default limits 240 min / 800 turns for the format. The default `explainer` format is unchanged. | `api/server.py` | `tests/test_api.py` (27 checks, still pass) |
+| Documentary format on the request: `long.format: "documentary"` with `long.target_seconds` 300, 600, 900 or 1800 (5, 10, 15, 30 min); `explainer` keeps 240–720, `series.theme/part/total_parts/next_episode_url`; default limits 240 min / 800 turns for the format. The default `explainer` format is unchanged. | `api/server.py` | `tests/test_api.py` (27 checks, still pass) |
 | Playbook beat templates (15 and 30 min), writing rules, markers (`[CHAPTER]`, `[SHORT: …]`, `[CHART: …]`, `[RECON: …]`, `[ARCHIVE]`, `[STOCK]`), visual mix, ad-safety rule, packaging; appended to the job prompt only for the documentary format. | `prompts/documentary_format.md` | – |
 | Research brief → script from the fact sheet → **separate fact-check session** (`python3 -m docgen factcheck [--verify]`) that extracts every claim and checks it against a primary source with WebSearch/WebFetch, writes `review/claims.md`; the producer cuts, hedges or labels; second pass verifies. | `docgen/factcheck.py`, `prompts/factcheck.md` | `tests/test_factcheck.py` |
 | Description: hook chapters (already), `comment_question`, `watch_next`, and a **Sources** list from the fact check. | `docgen/metadata.py` | covered in factcheck test only partly |

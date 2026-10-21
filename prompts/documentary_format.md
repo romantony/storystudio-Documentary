@@ -1,13 +1,29 @@
 
 ## Documentary format (this request has `long.format: "documentary"`)
 
-This job follows the Decoded Economy series playbook. Everything above still applies except where this section says otherwise: the story structure below replaces the "structure that has worked" paragraph, the research and fact-check stages below are added, and the length is `long.target_seconds` (900 for a 15-minute episode, 1800 for a 30-minute one). Read `series` in `request.json`: `theme`, `part`, `total_parts`, `name`, and the previous and next episode fields. The episode is one part of a mini-season on that theme, told through its economic impact.
+This job follows the Decoded Economy series playbook. Everything above still applies except where this section says otherwise: the story structure below replaces the "structure that has worked" paragraph, the research and fact-check stages below are added, and the length is `long.target_seconds`, one of 300, 600, 900 or 1800 (5, 10, 15 or 30 minutes). Read `series` in `request.json`: `theme`, `part`, `total_parts`, `name`, and the previous and next episode fields. The episode is one part of a mini-season on that theme, told through its economic impact.
 
 ### Words and scenes
 
-About 150 words per minute: roughly 2,200 words of narration for 900 s and 4,500 for 1,800 s. A 15-minute episode needs about 150-220 cuts of 4-6 seconds; change shot every 4-6 seconds and hold longer only on a chart the narration is reading. Write the title, the thumbnail concept and the cold open in the same pass, so they make the same promise. The title is story-led: a secret, a person, a consequence for the viewer, never "X explained" or a date-bound forecast.
+About 150 words per minute: roughly 750 words of narration for 300 s, 1,500 for 600 s, 2,200 for 900 s and 4,500 for 1,800 s. Cuts are 4-6 seconds: about 50-75 for 5 minutes, 100-150 for 10, 150-220 for 15; change shot every 4-6 seconds and hold longer only on a chart the narration is reading. Write the title, the thumbnail concept and the cold open in the same pass, so they make the same promise. The title is story-led: a secret, a person, a consequence for the viewer, never "X explained" or a date-bound forecast.
 
-### Beats (900 s)
+### Beats
+
+Every length uses the same seven beats. The 15-minute (900 s) table below is the reference; for 600 s and 300 s keep the order and scale each beat's start and end by 2/3 and 1/3.
+
+| Beat | 300 s | 600 s | 900 s |
+|---|---|---|---|
+| Cold open | 0:00-0:15 | 0:00-0:30 | 0:00-0:45 |
+| Why it touches your money | 0:15-0:50 | 0:30-1:40 | 0:45-2:30 |
+| Origins | 0:50-2:00 | 1:40-4:00 | 2:30-6:00 |
+| The protagonist | 2:00-3:00 | 4:00-6:00 | 6:00-9:00 |
+| Escalation and climax | 3:00-4:10 | 6:00-8:20 | 9:00-12:30 |
+| The honest verdict | 4:10-4:45 | 8:20-9:30 | 12:30-14:15 |
+| Hand-off | 4:45-5:00 | 9:30-10:00 | 14:15-15:00 |
+
+A 5-minute episode has room for one reveal every ~45 s and a single human character, introduced in the protagonist beat; the anchor metaphor appears in the first 50 s. Chapters: every 1-1.5 minutes at 5 minutes (at least three, each at least 10 s, or YouTube shows none), every 1.5-2.5 minutes from 10 minutes up.
+
+### Beats, 900 s in detail
 
 | Time | Beat | It must |
 |---|---|---|
@@ -23,7 +39,7 @@ For 1,800 s keep the skeleton and: add a second human character (an opponent or 
 
 ### Writing rules
 
-- A chapter every 1.5-2.5 minutes, each title written as a hook (it becomes a YouTube chapter).
+- A chapter at the spacing given above, each title written as a hook (it becomes a YouTube chapter).
 - One anchor metaphor per episode, introduced in the first 4 minutes and reused to the end, including in the comment question.
 - Every number gets a comparison the viewer can feel.
 - Name people and dates. Never write "experts say" without naming who and where.

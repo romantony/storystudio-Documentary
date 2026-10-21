@@ -28,6 +28,7 @@ BOOT = time.time(); LAST_CALL = [time.time()]
 os.makedirs(RUNS, exist_ok=True)
 
 # ---------- request model (section 4.2) ----------
+DOCUMENTARY_SECONDS = (300, 600, 900, 1800)   # the lengths the series is made in: 5, 10, 15 and 30 minutes
 class Series(BaseModel):
     name: Optional[str] = None; episode: Optional[int] = None
     theme: Optional[str] = Field(None, max_length=80); part: Optional[int] = Field(None, ge=1, le=12); total_parts: Optional[int] = Field(None, ge=1, le=12)
@@ -74,7 +75,7 @@ class Req(BaseModel):
     def _documentary_limits(self):
         # A 15-30 minute episode with research and a fact check does not fit the explainer's default budget.
         if self.long.format == "documentary":
-            if self.long.target_seconds < 600: raise ValueError("long.target_seconds must be at least 600 for long.format 'documentary'")
+            if self.long.target_seconds not in DOCUMENTARY_SECONDS: raise ValueError("long.target_seconds must be 300, 600, 900 or 1800 (5, 10, 15 or 30 minutes) for long.format 'documentary'")
             if "limits" not in self.model_fields_set: self.limits = Limits(max_runtime_minutes=240, max_llm_turns=800)
         return self
 class Respond(BaseModel):
