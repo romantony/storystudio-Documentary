@@ -11,12 +11,14 @@ Output, default data/<source>_<id>.json:
   {"source": "FRED", "series_id": "CPIAUCSL", "title": "...", "units": "...", "url": "https://...", "points": [{"x": "1971-08", "y": 40.9}, ...]}
 `url` is the page of the series, to cite in the description. Use the file in a chart: python3 -m docgen chart (docgen/chart.py).
 --freq on FRED aggregates (a, q, m); thin a long series to 12-60 points before charting, the chart script does it for you."""
-import csv, json, os, sys, urllib.parse, urllib.request
+import csv, json, os, sys, urllib.error, urllib.parse, urllib.request
 from .common import UA, key, mkdirs
 
 def get(url, data=None):
     req = urllib.request.Request(url, data, {**UA, **({"Content-Type": "application/json"} if data else {})})
-    return json.loads(urllib.request.urlopen(req, timeout=60).read())
+    try: return json.loads(urllib.request.urlopen(req, timeout=60).read())
+    except urllib.error.HTTPError as e:   # say what the service said, never the URL (it carries the API key)
+        sys.exit(f"data: {urllib.parse.urlparse(url).netloc} answered {e.code}: {e.read()[:300].decode('utf-8', 'replace')}")
 
 def fred(a):
     sid = a["pos"][0]; k = key("FRED_API_KEY")
