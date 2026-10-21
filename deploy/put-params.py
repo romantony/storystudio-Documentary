@@ -17,7 +17,7 @@ have = set()
 for page in ssm.get_paginator("describe_parameters").paginate(ParameterFilters=[{"Key": "Name", "Option": "BeginsWith", "Values": ["/docgen/"]}]):
     have |= {p["Name"] for p in page["Parameters"]}
 
-vals = {n: key(n) for n in ("RUNPOD_API_KEY", "GEMINI_API_KEY", "COMFY_API_KEY")}
+vals = {n: key(n) for n in ("RUNPOD_API_KEY", "GEMINI_API_KEY", "COMFY_API_KEY") if overwrite or "/docgen/" + n not in have}   # keys already stored need not be supplied again
 if os.environ.get("KIE_API_KEY"): vals["KIE_API_KEY"] = os.environ["KIE_API_KEY"]   # cinematic thumbnails (Nano Banana 2.1); optional
 for n in ("FRED_API_KEY", "EIA_API_KEY", "BLS_API_KEY"):   # chart data (docgen data); optional, free to register
     if os.environ.get(n): vals[n] = os.environ[n]
