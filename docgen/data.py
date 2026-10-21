@@ -16,7 +16,10 @@ from .common import UA, key, mkdirs
 
 def get(url, data=None):
     req = urllib.request.Request(url, data, {**UA, **({"Content-Type": "application/json"} if data else {})})
-    try: return json.loads(urllib.request.urlopen(req, timeout=60).read())
+    try:
+        raw = urllib.request.urlopen(req, timeout=60).read()
+        try: return json.loads(raw)
+        except ValueError: sys.exit(f"data: {urllib.parse.urlparse(url).netloc} answered with a page, not data (maintenance?): {raw[:200].decode('utf-8', 'replace')!r}. Try again later.")
     except urllib.error.HTTPError as e:   # say what the service said, never the URL (it carries the API key)
         sys.exit(f"data: {urllib.parse.urlparse(url).netloc} answered {e.code}: {e.read()[:300].decode('utf-8', 'replace')}")
 
