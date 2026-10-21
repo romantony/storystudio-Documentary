@@ -1,0 +1,144 @@
+{
+  "family": "docgen-worker",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "runtimePlatform": {
+    "cpuArchitecture": "ARM64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "cpu": "2048",
+  "memory": "8192",
+  "ephemeralStorage": {
+    "sizeInGiB": 100
+  },
+  "executionRoleArn": "arn:aws:iam::929075264324:role/docgen-task-execution",
+  "taskRoleArn": "arn:aws:iam::929075264324:role/docgen-task",
+  "containerDefinitions": [
+    {
+      "name": "docgen",
+      "image": "929075264324.dkr.ecr.us-east-1.amazonaws.com/docgen:latest",
+      "essential": true,
+      "entryPoint": [
+        "python3",
+        "-m",
+        "api.task"
+      ],
+      "workingDirectory": "/app",
+      "stopTimeout": 120,
+      "environment": [
+        {
+          "name": "DOCGEN_RUNNER",
+          "value": "claude"
+        },
+        {
+          "name": "DOCGEN_RUNS_DIR",
+          "value": "/data/runs"
+        },
+        {
+          "name": "CLAUDE_CONFIG_DIR",
+          "value": "/data/claude"
+        },
+        {
+          "name": "ANTHROPIC_MODEL",
+          "value": "claude-sonnet-5-5"
+        },
+        {
+          "name": "DOCGEN_OUTPUT_BUCKET",
+          "value": "storystudio-unified-storage-prod"
+        },
+        {
+          "name": "DOCGEN_OUTPUT_BASE_URL",
+          "value": "https://cdn-v2.ai-storystudio.com"
+        },
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "us-east-1"
+        },
+        {
+          "name": "PYTHONUNBUFFERED",
+          "value": "1"
+        },
+        {
+          "name": "DOCGEN_KEEP_RUNS",
+          "value": "3"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/ANTHROPIC_API_KEY"
+        },
+        {
+          "name": "GEMINI_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/GEMINI_API_KEY"
+        },
+        {
+          "name": "RUNPOD_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/RUNPOD_API_KEY"
+        },
+        {
+          "name": "DOCGEN_CALLBACK_SECRET",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/DOCGEN_CALLBACK_SECRET"
+        },
+        {
+          "name": "COMFY_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/COMFY_API_KEY"
+        },
+        {
+          "name": "KIE_API_KEY",
+          "valueFrom": "arn:aws:ssm:us-east-1:929075264324:parameter/docgen/KIE_API_KEY"
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "runs",
+          "containerPath": "/data/runs"
+        },
+        {
+          "sourceVolume": "claude",
+          "containerPath": "/data/claude"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/docgen",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "worker"
+        }
+      }
+    }
+  ],
+  "volumes": [
+    {
+      "name": "runs",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "<docgen-data EFS id>",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "<access point /runs>",
+          "iam": "ENABLED"
+        }
+      }
+    },
+    {
+      "name": "claude",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "<docgen-data EFS id>",
+        "transitEncryption": "ENABLED",
+        "authorizationConfig": {
+          "accessPointId": "<access point /claude>",
+          "iam": "ENABLED"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "key": "Purpose",
+      "value": "docgen"
+    }
+  ]
+}

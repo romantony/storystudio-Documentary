@@ -19,6 +19,8 @@ for page in ssm.get_paginator("describe_parameters").paginate(ParameterFilters=[
 
 vals = {n: key(n) for n in ("RUNPOD_API_KEY", "GEMINI_API_KEY", "COMFY_API_KEY")}
 if os.environ.get("KIE_API_KEY"): vals["KIE_API_KEY"] = os.environ["KIE_API_KEY"]   # cinematic thumbnails (Nano Banana 2.1); optional
+for n in ("FRED_API_KEY", "EIA_API_KEY", "BLS_API_KEY"):   # chart data (docgen data); optional, free to register
+    if os.environ.get(n): vals[n] = os.environ[n]
 if os.environ.get("ANTHROPIC_API_KEY"): vals["ANTHROPIC_API_KEY"] = os.environ["ANTHROPIC_API_KEY"]
 else: print("ANTHROPIC_API_KEY is not in the environment: skipped, add it later")
 vals.update(DOCGEN_API_TOKEN=secrets.token_hex(32), DOCGEN_CALLBACK_SECRET=secrets.token_hex(32),

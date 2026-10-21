@@ -1,5 +1,5 @@
 """docgen API server. One documentary job at a time; the orchestrator owns the queue.
-Contract: docs/DOCKER_SERVICE_DESIGN.md section 4. Status comes from <run>/status.json, which the toolkit writes.
+Contract: docs/DOCKER_SERVICE_DESIGN.md section 4 (on ECS: api/task.py and docs/ECS_STEP_FUNCTIONS.md). Status comes from <run>/status.json, which the toolkit writes.
 
 Env: DOCGEN_API_TOKEN (required), DOCGEN_CALLBACK_SECRET, DOCGEN_RUNS_DIR (/data/runs), DOCGEN_RUNNER (claude|mock),
      DOCGEN_IMAGE, DOCGEN_ORIGIN_SECRET (CloudFront origin header), DOCGEN_PROMPT (/app/prompts/produce.md), DOCGEN_CLAUDE_FLAGS, DOCGEN_HEARTBEAT_S (60),
@@ -8,7 +8,7 @@ import hashlib, hmac, json, os, queue, re, shlex, shutil, signal, subprocess, sy
 from typing import List, Literal, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
-from pydantic import BaseModel, Field, ValidationError, field_validator
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from docgen import status as S
@@ -30,11 +30,15 @@ os.makedirs(RUNS, exist_ok=True)
 # ---------- request model (section 4.2) ----------
 class Series(BaseModel):
     name: Optional[str] = None; episode: Optional[int] = None
+    theme: Optional[str] = Field(None, max_length=80); part: Optional[int] = Field(None, ge=1, le=12); total_parts: Optional[int] = Field(None, ge=1, le=12)
+    next_episode_url: Optional[str] = None
+    refs: dict = Field(default_factory=dict)   # person -> https URL of the theme's reference image, so a likeness stays the same in every part
     previous_episode_title: Optional[str] = None; previous_episode_url: Optional[str] = None
     next_episode_title: Optional[str] = None; playlist_url: Optional[str] = None
 class Long(BaseModel):
     enabled: bool = True; aspect: Literal["16:9"] = "16:9"
-    target_seconds: int = Field(480, ge=240, le=720); narrator_voice: str = "Charon"
+    target_seconds: int = Field(480, ge=240, le=1800); narrator_voice: str = "Charon"
+    format: Literal["explainer", "documentary"] = "explainer"   # documentary: the series playbook (beats, research, separate fact check); prompts/documentary_format.md
 class Shorts(BaseModel):
     count: int = Field(3, ge=0, le=3); aspect: Literal["9:16"] = "9:16"
     angles: List[Literal["spark", "myth", "legacy"]] = ["spark", "myth", "legacy"]
@@ -66,6 +70,13 @@ class Req(BaseModel):
     series: Series = Series(); long: Long = Long(); shorts: Shorts = Shorts(); visuals: Visuals = Visuals(); thumbnail: Thumbnail = Thumbnail()
     review_mode: Literal["checkpoints", "auto"] = "checkpoints"; model: str = "claude-sonnet-5-5"
     limits: Limits = Limits(); output: Output = Output(); callback: Callback
+    @model_validator(mode="after")
+    def _documentary_limits(self):
+        # A 15-30 minute episode with research and a fact check does not fit the explainer's default budget.
+        if self.long.format == "documentary":
+            if self.long.target_seconds < 600: raise ValueError("long.target_seconds must be at least 600 for long.format 'documentary'")
+            if "limits" not in self.model_fields_set: self.limits = Limits(max_runtime_minutes=240, max_llm_turns=800)
+        return self
 class Respond(BaseModel):
     checkpoint_id: str; action: Literal["approve", "revise", "abort"]; instructions: str = ""
 
@@ -123,7 +134,7 @@ def emit(j, event, bump=True):
 def hook_worker():
     while True:
         url, body, attempt, due = HOOKS.get()
-        if due > time.time(): HOOKS.put((url, body, attempt, due)); time.sleep(0.5); continue
+        if due > time.time(): HOOKS.put((url, body, attempt, due)); HOOKS.task_done(); time.sleep(0.5); continue
         raw = json.dumps(body).encode()
         hdr = {"Content-Type": "application/json", "X-Docgen-Event": body["event"], "X-Docgen-Delivery": str(uuid.uuid4()),
                "X-Docgen-Signature": "sha256=" + hmac.new(SECRET.encode(), raw, hashlib.sha256).hexdigest()}
@@ -131,6 +142,7 @@ def hook_worker():
             r = urllib.request.urlopen(urllib.request.Request(url, raw, hdr), timeout=10); ok = 200 <= r.status < 300
         except Exception: ok = False
         if not ok and body["event"] != "job.heartbeat" and attempt < len(RETRY): HOOKS.put((url, body, attempt + 1, time.time() + RETRY[attempt]))
+        HOOKS.task_done()   # api/task.py waits on HOOKS.join() for delivery (retries included) before the ECS task exits
 threading.Thread(target=hook_worker, daemon=True).start()
 
 # ---------- runner ----------
@@ -200,8 +212,10 @@ def kill(j):
         except Exception:
             try: os.killpg(p.pid, signal.SIGKILL)
             except Exception: pass
+DOC_FORMAT_PROMPT = os.environ.get("DOCGEN_FORMAT_PROMPT") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "prompts", "documentary_format.md")
 def start_prompt(req):
-    return open(PROMPT).read() + "\n\n## This job\n\nThe request is in `request.json` in the current folder. Read it first.\n"
+    extra = open(DOC_FORMAT_PROMPT).read() if req.get("long", {}).get("format") == "documentary" else ""
+    return open(PROMPT).read() + extra + "\n\n## This job\n\nThe request is in `request.json` in the current folder. Read it first.\n"
 
 # ---------- health ----------
 _mcp = {"t": 0, "v": "unknown"}
@@ -216,7 +230,7 @@ def storyblocks():
     _mcp.update(t=time.time(), v=v); return v
 def checks():
     c = {"storyblocks_mcp": storyblocks()}
-    for name, env in (("anthropic", "ANTHROPIC_API_KEY"), ("gemini", "GEMINI_API_KEY"), ("runpod", "RUNPOD_API_KEY"), ("comfy", "COMFY_API_KEY"), ("kie", "KIE_API_KEY")):
+    for name, env in (("anthropic", "ANTHROPIC_API_KEY"), ("gemini", "GEMINI_API_KEY"), ("runpod", "RUNPOD_API_KEY"), ("comfy", "COMFY_API_KEY"), ("kie", "KIE_API_KEY"), ("fred", "FRED_API_KEY"), ("eia", "EIA_API_KEY")):
         c[name] = "set" if os.environ.get(env) else "missing"     # presence only; validity shows up when a job uses the key
     c["callback_secret"] = "set" if SECRET else "missing"
     c["disk_free_gb"] = round(shutil.disk_usage(RUNS).free / 1e9, 1)

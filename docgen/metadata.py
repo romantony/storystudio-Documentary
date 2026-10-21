@@ -3,7 +3,7 @@ timeline, credits from the archive records, verify lists from the scripts.
 python3 -m docgen metadata meta.json
 meta.json:
 { "long": {"title", "alternatives": [], "tags": "a, b", "pinned_comment", "thumbnail_text", "hashtags": "#A #B",
-           "description": "paragraphs; may contain {chapters}", "disclosure": "what is AI-generated",
+           "description": "paragraphs; may contain {chapters}", "comment_question", "watch_next", "disclosure": "what is AI-generated",
            "chapters": {"1": "Title for the chapter starting at scene 1", "4": "..."}},
   "shorts": {"a_spark": {"day": 1, "title", "alternatives": [], "cover_text", "tags", "pinned_comment", "description", "hashtags"}} }
 Writes out/youtube_metadata.md, out/youtube_metadata_shorts.md, out/youtube_metadata.json, out/credits.md."""
@@ -32,6 +32,12 @@ def main(cmd, argv):
     PA = {k: v for k, v in PA.items() if any(e["asset"] == k and e["src"] == v["path"] for e in tl.values())}   # credit only archive files actually on screen
     att = [f"{PA[a]['commons_title'][5:]} by {PA[a].get('artist') or 'unknown'}, {PA[a]['license']}" for a in dict.fromkeys(used) if a in PA and PA[a].get("needs_attribution", "BY" in PA[a]["license"])]
     if att: desc += "\n\nAttribution (Wikimedia Commons): " + "; ".join(att) + "."
+    if L.get("comment_question"): desc += "\n\n" + L["comment_question"]
+    if L.get("watch_next"): desc += "\n\nWatch next: " + L["watch_next"]
+    cf = next((f for f in ("review/claims_verify.json", "review/claims.json") if os.path.exists(f)), None)
+    if cf:   # the fact check's source table (docgen factcheck), the second pass when there is one: only claims it found supported
+        rows = [c for c in json.load(open(cf)).get("claims", []) if c.get("verdict") == "supported" and c.get("source_url")]
+        if rows: desc += "\n\nSources:\n" + "\n".join(dict.fromkeys(f"- {c.get('source_name') or c['source_url']}: {c['source_url']}" for c in rows))
     desc += "\n\n" + L.get("disclosure", "Narration and music in this video are AI-generated.") + "\n\n" + PRODUCED + "\n\n" + L.get("hashtags", "")
     ver = [(n, s["asset"], s["verify_note"]) for n, s in sc.items() if s.get("verify")]
     for ph in ("[PLAYLIST URL]", "[EPISODE"):
