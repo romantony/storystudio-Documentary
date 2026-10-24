@@ -43,7 +43,7 @@ For 1,800 s keep the skeleton and: add a second human character (an opponent or 
 - One anchor metaphor per episode, introduced in the first 4 minutes and reused to the end, including in the comment question.
 - Every number gets a comparison the viewer can feel.
 - Name people and dates. Never write "experts say" without naming who and where.
-- Put these markers in the scene `note` field so the builders and later stages find them: `[CHAPTER]`, `[SHORT: spark|myth|legacy]` (the scene a Short is cut from), `[CHART: dataset]`, `[RECON: scene]` (a reconstruction; label it "Reconstruction" on screen with an overlay), `[ARCHIVE]`, `[STOCK]`.
+- Put these markers in the scene `note` field so the builders and later stages find them: `[CHAPTER]`, `[SHORT: spark|myth|legacy]` (the scene a Short is cut from), `[CHART: dataset]`, `[3D: bars3d|globe|network3d]`, `[RECON: scene]` (a reconstruction; label it "Reconstruction" on screen with an overlay), `[ARCHIVE]`, `[STOCK]`.
 - Drug and war topics: keep to money flows, supply chains and policy. No graphic imagery in the opening or the thumbnail. Set `visuals.allow_graphic_archive` false in your own plan even when the request allows it.
 - Disputed history is labelled as disputed in the narration.
 
@@ -65,6 +65,13 @@ Every number the verdict stands on is a chart drawn from real data, never an ima
 2. `python3 -m docgen chart <id> --data data/<file>.json --title "<what it shows>" [--highlight <x> --label "<event>"]` writes `ltx_chart_<id>.mp4` and `chart_<id>.png` in the assets folder.
 3. The scene is `{"asset": "chart_<id>", "kind": "animated", ...}` and holds at least 8 seconds, so the narration can read the chart. The data file's `url` goes into the fact sheet; the Fact Checker verifies the claim the chart makes.
 Use a line chart for change over time and a bar chart for comparing a few values; at most 8 bars.
+
+### 3D scenes
+
+A 3D scene (Three.js, rendered without a GPU) is for the one moment the verdict or origin hangs on: a ranking where one bar towers (`bars3d`), a journey or places around the world (`globe`), a system whose parts connect (`network3d`). Rare: at most one per five minutes of film. Charts stay the default for data, and never use a 3D bar chart where a line chart over time is the honest picture. For a `[3D: kind]` scene:
+1. Write the spec (title, kicker, and for a globe its pins and arcs, for a network its nodes and links). A `bars3d` takes its numbers from `--data data/<file>.json` made by `docgen data`, never from the spec; its source is printed on screen and the data file's `url` goes into the fact sheet.
+2. `python3 -m docgen scene3d <id> --kind bars3d|globe|network3d --spec spec.json [--data data/<file>.json] --plan --scene <n>` has Opus design the camera and timing (it cannot change a number, label or source). Then run the same command without `--plan`, with `--scene <n>` so items appear on the narration words, to write `ltx_scene3d_<id>.mp4` and `scene3d_<id>.png`.
+3. The scene is `{"asset": "scene3d_<id>", "kind": "animated", "note": "[3D: bars3d]", ...}`, held at least 8 seconds. A `globe` or `network3d` that states a fact (a route, a connection) is flagged `verify` in the script, like a `quote` or `stat` overlay.
 
 ### Reference images
 

@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {Cover, CoverProps} from './Cover';
 import {Overlay, OverlayProps} from './Overlay';
 import {Chart, ChartProps} from './Chart';
+import {Scene3D, Scene3DProps} from './Scene3D';
 
 // One composition. Size, length and frame rate come from the props, so the same bundle serves 16:9 and 9:16.
 const defaults: OverlayProps = {
@@ -30,6 +31,8 @@ export const Root: React.FC = () => (
   <Composition id="Cover" component={Cover as any} defaultProps={{lines: ['90', 'DAYS'], width: 1080, height: 1920, fps: 30, seconds: 1} as CoverProps}
     width={1080} height={1920} fps={30} durationInFrames={30} calculateMetadata={meta} />
   <Composition id="Chart" component={Chart as any} defaultProps={{kind: 'line', width: 1920, height: 1080, fps: 30, seconds: 8, title: 'Chart', source: 'FRED', points: [{x: '2000', y: 1}, {x: '2001', y: 2}]} as ChartProps}
+    width={1920} height={1080} fps={30} durationInFrames={240} calculateMetadata={meta} />
+  <Composition id="Scene3D" component={Scene3D as any} defaultProps={{kind: 'bars3d', width: 1920, height: 1080, fps: 30, seconds: 8, title: 'Scene', items: [{label: 'A', value: 3}, {label: 'B', value: 5}]} as Scene3DProps}
     width={1920} height={1080} fps={30} durationInFrames={240} calculateMetadata={meta} />
   </>
 );

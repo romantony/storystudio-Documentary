@@ -1,6 +1,6 @@
 # 3D scenes for docgen (Three.js in Remotion): implementation brief
 
-Status: proposal, nothing built in docgen yet. Written 2026-10-24 after the same feature was built and tested in infogen.
+Status: built and tested locally (x86, 8 s scenes, `--gl=swangle`); not yet pushed, image not rebuilt, arm64 instance not tried. Written 2026-10-24 after the same feature was built and tested in infogen.
 
 ## 1. Goal
 
@@ -81,3 +81,13 @@ The builder plays the clip then crossfades to the still. Hold the scene at least
 - Three.js prints a harmless "THREE.Clock deprecated" warning from react-three-fiber.
 - infogen's `render.mjs` fails on PNG stills (passes `jpegQuality` to a non-JPEG render). Pre-existing there; use `remotion still` for stills.
 - Real Opus planning has not been run end to end in infogen yet (only mocked).
+
+## 9. Results (2026-10-24, local x86 machine, clip + still, 8 s)
+
+| Kind | 1920x1080 | 1080x1920 |
+|---|---|---|
+| bars3d | 39 s | 29 s |
+| globe | 67 s | 68 s |
+| network3d | 26 s | 24 s |
+
+Stills checked by eye in both sizes. Remaining from section 6: the arm64 feasibility run, CodeBuild, a render from inside the container, and one real Opus planner call. The render cache is keyed on the props only: after changing a template, delete `build/scene3d/*.hash`.

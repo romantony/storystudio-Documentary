@@ -23,6 +23,7 @@ Everything is run from the run folder with `python3 -m docgen <command>`. Each c
 | `analyst` | `analyst thumbnail`: the Thumbnail Analyst scores the candidates against its rubric. |
 | `thumb` | Fallback single thumbnail. |
 | `data`, `chart` | Real data (FRED, BLS, EIA, IMF) and a chart drawn from it, as a clip plus a still. See "Charts" in the documentary section. |
+| `scene3d` | A rare 3D scene (`bars3d`, `globe`, `network3d`) for one reveal, as a clip plus a still. See "3D scenes" in the documentary section. |
 | `factcheck` | The separate fact-checking session (documentary format). |
 | `overlay` | Animated text over a scene, an image or a video (Remotion). Normally requested in the script; see "Text overlays". |
 | `metadata` | Write the metadata and credits files from a `meta.json` you write. |

@@ -351,6 +351,10 @@ Optional on any of them: `at` (seconds after the scene starts, default 0.8), `se
 - Time: about 10 seconds of rendering per overlay on the instance, so a typical episode gains a minute or two.
 - The instructions given to the producing run ask for restraint: roughly one scene in four at most, and one or two per Short.
 
+**3D scenes**
+
+The producing run may add a rare 3D scene (`bars3d`, `globe` or `network3d`, Three.js in Remotion, rendered without a GPU) for the one reveal a verdict or origin hangs on, at most one per five minutes. It is not requestable per scene; steer it at `cp_script` like overlays ("Remove the 3D scene in scene 9"). A `bars3d` takes its numbers only from a data file, with its source on screen and in the fact sheet; a `globe` or `network3d` that states a fact is flagged `verify` like a `quote` overlay. Camera and timing are planned by Claude Opus (`DOCGEN_ANIM_MODEL`, a few cents per scene) and never change a number or label. Rendering takes about 1 to 2 minutes per scene on the instance.
+
 ## 8. Collecting the outputs
 
 Finished outputs are uploaded to S3 and served through the CDN. On `job.succeeded`, every entry in `status.outputs` carries a public `url`:
