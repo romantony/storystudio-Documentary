@@ -145,7 +145,7 @@ Every error has the same shape:
               "text_overlays": true},
   "review_mode": "checkpoints",
   "model": "claude-sonnet-5-5",
-  "limits": {"max_runtime_minutes": 150, "max_llm_turns": 400},
+  "limits": {"max_runtime_minutes": 150, "max_llm_turns": 250},
   "output": {"prefix": "docgen/qm-2026-10-12-0001/"},
   "callback": {"url": "https://<orchestrator-host>/webhooks/docgen"}
 }
@@ -169,7 +169,7 @@ Only `request_id`, `topic`, `synopsis` and `callback.url` are required. Everythi
 | `visuals.text_overlays` | default true | Animated on-screen text (names, dates, numbers, quotations). Set false for videos with captions only. See section 7. |
 | `review_mode` | `checkpoints` (default) or `auto` | `auto` runs to the end without pausing |
 | `limits.max_runtime_minutes` | 30 to 300, default 150 | Counted from acceptance, including time spent waiting at checkpoints. The job fails with `timeout` when it is exceeded. |
-| `limits.max_llm_turns` | 20 to 2,000, default 400 | |
+| `limits.max_llm_turns` | 20 to 2,000, default 250 (500 for `documentary` when `limits` is not sent) | |
 | `output.prefix` | default `docgen/<request_id>/` | Key prefix in the output bucket, and so the path part of the public URLs. Must start with `docgen/`; the instance may not write elsewhere in the bucket. |
 | `callback.url` | must start with `https://` | Where webhooks are sent |
 
@@ -203,6 +203,8 @@ Returned by `GET /v1/documentaries/{job_id}` and carried inside every webhook.
   "warnings": ["No audio has been listened to"],
   "outputs": [],
   "costs": {"infinitetalk_clips": 3, "ltx_clips": 10},
+  "llm": {"usd_estimate": 2.41, "calls": 58, "input": 412, "output": 61200, "cache_read": 5120000, "cache_write": 310000, "cache_write_1h": 290000,
+          "by_step": {"producer": {"usd": 2.05, "calls": 55, "exact": false, "...": "..."}, "analyst/thumbnail": {"usd": 0.36, "...": "..."}}},
   "error": null,
   "created_at": "2026-10-12T09:00:04Z",
   "stage_started_at": "2026-10-12T09:41:10Z",
@@ -215,6 +217,7 @@ Returned by `GET /v1/documentaries/{job_id}` and carried inside every webhook.
 - `progress`: 0 to 1, a weighted count of finished stages. It is 1.0 only when the job has succeeded.
 - `message`, `next_steps`, `warnings`: plain text written for a person. Show `warnings` to whoever publishes the video.
 - `costs`: counts of paid generations, not money.
+- `llm`: Claude tokens and a list-price USD estimate for the job so far, in total and per step (`producer`, `analyst/thumbnail`, `factcheck`, `scene3d`); `null` before the first call. `exact` is true for the producer once a run of its session has ended. The Anthropic Console is the bill.
 
 ### Webhooks
 
@@ -305,6 +308,7 @@ Fetch each file with `GET /v1/documentaries/{job_id}/files/<path>`, then answer:
 |---|---|---|
 | `timeout` | Ran past `limits.max_runtime_minutes` | Yes, with a new `request_id` |
 | `llm_error` | The Claude process exited abnormally | Yes |
+| `llm_budget_exceeded` | The job's Claude spend estimate passed the cap (`DOCGEN_MAX_LLM_USD`, $15; `DOCGEN_MAX_LLM_USD_DOCUMENTARY`, $30) | No; look at `llm.by_step`. The same `request_id` may be sent again once the cause is fixed |
 | `internal` | The server restarted mid-job, or the process ended without a result | Yes |
 | `generation_failed` | A generation step failed and could not be replaced | Look at `message` first |
 | `storyblocks_auth` | Storyblocks sign-in is missing or expired | No; a person must sign in |

@@ -1,13 +1,28 @@
 """Stand-in for the Claude Code run, for testing the API without spending money. Walks the stages and writes status.json
 exactly as the real toolkit does. DOCGEN_MOCK_STEP_S sets the pause between stages; a topic containing 'FAIL' fails."""
-import json, os, sys, time
+import atexit, json, os, sys, time
 from docgen import status as S
 mode = sys.argv[1]; step = float(os.environ.get("DOCGEN_MOCK_STEP_S", "0.5"))
 req = json.load(open("request.json")); chk = req["review_mode"] == "checkpoints"
 print(json.dumps({"type": "system", "subtype": "init", "session_id": "mock-session-1"}), flush=True)
+N = [0]
+def call():
+    """One API call's usage line, as Claude Code streams it (a topic containing 'BUDGET' makes every call cost about $20)."""
+    N[0] += 1; big = "BUDGET" in req["topic"]
+    u = {"input_tokens": 10_000_000 if big else 1000, "output_tokens": 200, "cache_read_input_tokens": 5000, "cache_creation_input_tokens": 0}
+    print(json.dumps({"type": "assistant", "message": {"id": f"msg_{mode}_{N[0]}", "model": req["model"], "usage": u}}), flush=True)
+def result():
+    """The run's closing `result` line, with the session's totals so far (a resumed session's include its earlier runs)."""
+    tot = json.load(open(".mock_session.json")) if os.path.exists(".mock_session.json") else {"calls": 0}
+    tot["calls"] += N[0]; json.dump(tot, open(".mock_session.json", "w"))
+    k = tot["calls"]; big = "BUDGET" in req["topic"]
+    print(json.dumps({"type": "result", "subtype": "success", "session_id": "mock-session-1", "num_turns": N[0], "total_cost_usd": 0.01 * k,
+                      "modelUsage": {req["model"]: {"inputTokens": k * (10_000_000 if big else 1000), "outputTokens": 900 * k, "cacheReadInputTokens": 5000 * k,
+                                                    "cacheCreationInputTokens": 0, "costUSD": 0.01 * k}}}), flush=True)
+atexit.register(result)
 def go(stages):
     for st, msg in stages:
-        S.update(stage=st, message=msg); time.sleep(step)
+        call(); S.update(stage=st, message=msg); time.sleep(step)
 first = [("setup", "Folders created."), ("script", "Scripts written.")]
 rest = [("assets_queued", "Assets queued."), ("assets_ready", "Assets ready."), ("narration", "Narration done."), ("timings", "Timings done."),
         ("build_long", "Long video built."), ("build_shorts", "Shorts built."), ("metadata", "Metadata written.")]

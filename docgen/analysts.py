@@ -106,11 +106,13 @@ def ask(text, role, model):
     """The analyst's reply text: a fresh Claude session with read-only tools."""
     cmd = os.environ.get("DOCGEN_ANALYST_CMD")
     if cmd: return subprocess.run(cmd, shell=True, input=text, capture_output=True, text=True, timeout=1800).stdout
+    from . import llm
     tools = "Read Glob Grep" + (" WebSearch WebFetch" if role == "research" else "")
-    out = subprocess.run(["claude", "-p", text, "--model", model, "--output-format", "json", "--max-turns", "40", "--allowedTools", *tools.split()],
-                         capture_output=True, text=True, timeout=1800)
-    try: return json.loads(out.stdout).get("result", "")
-    except Exception: return out.stdout
+    step = "factcheck" if role == "research" else f"analyst/{role}"
+    # The Thumbnail Analyst mostly scores pictures: medium effort. The Fact Checker keeps the model's default.
+    effort = os.environ.get("DOCGEN_THUMBNAIL_ANALYST_EFFORT", "medium") if role == "thumbnail" else None
+    try: return llm.run(text, model, step, tools=tools, max_turns=40, max_usd=float(os.environ.get("DOCGEN_ANALYST_MAX_USD", "2")), effort=effort or None)
+    except RuntimeError as e: sys.exit(f"{ROLES.get(role, 'Fact Checker')}: {e}")
 
 def parse(reply):
     """The JSON object in the reply (bare, or in a ```json fence)."""

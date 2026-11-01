@@ -29,8 +29,32 @@ Everything is run from the run folder with `python3 -m docgen <command>`. Each c
 | `metadata` | Write the metadata and credits files from a `meta.json` you write. |
 | `sheet` | Contact sheets of images or video frames, so you can look at them with the Read tool. |
 | `upload` | Copy finished outputs to the output bucket. |
+| `wait` | Block until background work has written its files (see "Background work"). |
 
 The Storyblocks MCP tools (`mcp__storyblocks__*`) search and license stock footage. `get_download_url` licenses the item on the account every time it is called, so search and preview freely but call it once per item you have decided to use, and keep the file.
+
+## Keep the session small
+
+Every turn resends the whole session so far, so what you read stays in the bill until the job ends, and a runaway job is stopped at a fixed Claude budget.
+- Read only what you need. Use `tail -n 40`, `grep` or `python3 -c` on logs and long JSON files instead of reading them whole, and never read `runner.jsonl`, `llm_usage.json`, `llm_calls.jsonl`, `build/queue_state.json` or media files.
+- Read a docstring once, when you first need its format; read only the part you need of a long file (`sed -n` or `grep -n` first).
+- Look at pictures through contact sheets (`sheet`, `build/archive_sheet.jpg`), and open an image at full size only when a sheet shows a problem or the rules below ask for it (the chosen thumbnails).
+- Do several steps per turn where you can: chain commands that don't need you to look at their output in between, and write several small files in one command.
+- When researching, keep only what you need from a page in your notes; don't fetch the same page twice.
+
+## Background work
+
+Slow commands (`queue`, `thumbnail generate`, `analyst`, `assemble --run`, `factcheck`) can take many minutes. Never check on them turn after turn: each check resends the whole session. Run a slow command in the foreground when it finishes within about nine minutes (a Bash call may take up to ten), or start it in the background and wait for its files in the same command with `wait`, which returns as soon as they exist:
+
+    nohup python3 -m docgen analyst thumbnail > review_thumbnail.log 2>&1 & A=$!
+    python3 -m docgen wait review/thumbnail.json --pid $A
+
+For a command whose outputs you can't list in advance, wait on a done file:
+
+    (python3 -m docgen queue assets.json > queue.log 2>&1; echo $? > queue.done) &
+    python3 -m docgen wait queue.done
+
+`wait` prints `ready`, `exited` (a process ended without its file: read the end of its log with `tail`) or, after about nine minutes, `waiting`: then run the same `wait` command again. Do not do anything else between waits.
 
 ## Reporting
 
@@ -83,10 +107,11 @@ Pictures come from Nano Banana 2.1 on KIE, and the headline is typeset exactly o
    - `accuracy`: what must be period-correct.
 
    Add the top-level `era`. Give every Short its own angle. Choose the `preset` (`python3 -m docgen thumbnail presets`) when `thumbnail.style` is `"auto"`, the default: `epic_historical` for history and wars, `economic_explainer` for markets, commodities and economics, `mystery_discovery` for science and the unexplained, `cinematic_infographic` otherwise. Run `python3 -m docgen thumbnail check` and fix every error.
-2. **Generate:** `python3 -m docgen thumbnail generate`. It makes `thumbnail.candidates` per target (default 3). Run it in the background; it takes a few minutes.
-3. **Score:** run `python3 -m docgen analyst thumbnail` in the background and wait for `review/thumbnail.json`. The Thumbnail Analyst opens every candidate and scores it.
+   Before generating, check every target's headline `text` against your sources and the script: a wrong number on a thumbnail wastes a whole round.
+2. **Generate:** `python3 -m docgen thumbnail generate`. It makes `thumbnail.candidates` per target (default 3). It takes a few minutes: run it in the background and `wait` for it with `--pid` (see "Background work").
+3. **Score:** run `python3 -m docgen analyst thumbnail` in the background and `wait` for `review/thumbnail.json`. The Thumbnail Analyst opens every candidate and scores it.
 4. **Pick:** `python3 -m docgen thumbnail select`. It takes the best candidate per target that has the exact text, is accurate and scores at least 80.
-   - If a target falls short, revise its plan from the analyst's findings and run `thumbnail generate --only <id> --more 3`, then score and select again.
+   - If a target falls short, do not re-roll the same brief: change the concept or the layout (a different hero or framing, the headline placed or split differently), guided by the analyst's findings, then run `thumbnail generate --only <id> --more 3`, score and select again.
    - After two rounds, run `thumbnail select --accept-best` and say so in a warning.
 5. **Insert:** put each Short's thumbnail into it as a cover frame with `python3 -m docgen thumbnail cover --short <id>` (when `thumbnail.shorts_cover`). YouTube Shorts take their thumbnail from a frame.
 6. **Report:** look at the chosen thumbnails yourself. Record `--cost thumbnail_images=<generated>`.

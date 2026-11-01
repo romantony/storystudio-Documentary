@@ -92,9 +92,9 @@ def prompt(narration, scene):
 def ask(text, model=None):
     cmd = os.environ.get("DOCGEN_SCENE3D_CMD")
     if cmd: return subprocess.run(cmd, shell=True, input=text, capture_output=True, text=True, timeout=900).stdout
-    out = subprocess.run(["claude", "-p", text, "--model", model or MODEL, "--output-format", "json", "--max-turns", "2", "--allowedTools", ""], capture_output=True, text=True, timeout=900)
-    try: return json.loads(out.stdout).get("result", "")
-    except Exception: return out.stdout
+    from . import llm   # no tools at all: the planner only answers, so no tool definitions are sent
+    try: return llm.run(text, model or MODEL, "scene3d", tools="", max_turns=2, max_usd=float(os.environ.get("DOCGEN_SCENE3D_MAX_USD", "2")), timeout=900)
+    except RuntimeError as e: sys.exit(str(e))
 
 def parse(reply):
     m = re.search(r"```(?:json)?\s*(\{.*\})\s*```", reply, re.S)

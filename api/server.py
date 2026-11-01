@@ -3,7 +3,8 @@ Contract: docs/DOCKER_SERVICE_DESIGN.md section 4 (on ECS: api/task.py and docs/
 
 Env: DOCGEN_API_TOKEN (required), DOCGEN_CALLBACK_SECRET, DOCGEN_RUNS_DIR (/data/runs), DOCGEN_RUNNER (claude|mock),
      DOCGEN_IMAGE, DOCGEN_ORIGIN_SECRET (CloudFront origin header), DOCGEN_PROMPT (/app/prompts/produce.md), DOCGEN_CLAUDE_FLAGS, DOCGEN_HEARTBEAT_S (60),
-     DOCGEN_KEEP_RUNS (3: full run folders kept for the newest finished jobs)"""
+     DOCGEN_KEEP_RUNS (3: full run folders kept for the newest finished jobs), DOCGEN_CLAUDE_TOOLS, DOCGEN_MAX_LLM_USD (15) and
+     DOCGEN_MAX_LLM_USD_DOCUMENTARY (30): the job is stopped when its Claude spend estimate passes the cap (see docgen/llm.py)"""
 import hashlib, hmac, json, os, queue, re, shlex, shutil, signal, subprocess, sys, threading, time, urllib.request, uuid
 from typing import List, Literal, Optional
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
@@ -11,7 +12,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-from docgen import status as S
+from docgen import llm, status as S
 
 RUNS = os.environ.get("DOCGEN_RUNS_DIR", "/data/runs")
 TOKEN = os.environ.get("DOCGEN_API_TOKEN", "")
@@ -55,7 +56,7 @@ class Thumbnail(BaseModel):   # cinematic thumbnails (docgen/thumbnail.py): Nano
     shorts: bool = True; shorts_cover: bool = True      # a 9:16 thumbnail for every Short, put into the Short as a cover frame
     resolution: Literal["1K", "2K", "4K"] = "2K"
 class Limits(BaseModel):
-    max_runtime_minutes: int = Field(150, ge=30, le=300); max_llm_turns: int = Field(400, ge=20, le=2000)
+    max_runtime_minutes: int = Field(150, ge=30, le=300); max_llm_turns: int = Field(250, ge=20, le=2000)   # infogen made a 10-minute video in 85 turns (2026-11-01)
 class Output(BaseModel):
     prefix: Optional[str] = Field(None, max_length=200, pattern=r"^docgen/[A-Za-z0-9_\-./]*$")   # the instance role can only write under docgen/
 class Callback(BaseModel):
@@ -76,7 +77,7 @@ class Req(BaseModel):
         # A 15-30 minute episode with research and a fact check does not fit the explainer's default budget.
         if self.long.format == "documentary":
             if self.long.target_seconds not in DOCUMENTARY_SECONDS: raise ValueError("long.target_seconds must be 300, 600, 900 or 1800 (5, 10, 15 or 30 minutes) for long.format 'documentary'")
-            if "limits" not in self.model_fields_set: self.limits = Limits(max_runtime_minutes=240, max_llm_turns=800)
+            if "limits" not in self.model_fields_set: self.limits = Limits(max_runtime_minutes=240, max_llm_turns=500)
         return self
 class Respond(BaseModel):
     checkpoint_id: str; action: Literal["approve", "revise", "abort"]; instructions: str = ""
@@ -102,7 +103,7 @@ def public(j):
     out = {"job_id": j, "request_id": job.get("request_id"), "seq": st.get("seq", 0), "state": st.get("state", "running"),
            "stage": a.get("stage", "setup"), "stages_done": a.get("stages_done", []), "progress": a.get("progress", 0.0), "message": a.get("message", ""),
            "next_steps": a.get("next_steps", []), "awaiting": a.get("awaiting") if st.get("state") == "awaiting_input" else None,
-           "warnings": a.get("warnings", []), "outputs": a.get("outputs", []), "costs": a.get("costs", {}),
+           "warnings": a.get("warnings", []), "outputs": a.get("outputs", []), "costs": a.get("costs", {}), "llm": llm.summary(jdir(j)),
            "error": st.get("error") or a.get("error"), "created_at": job.get("created_at"), "stage_started_at": a.get("stage_started_at"), "updated_at": st.get("updated_at")}
     if out["state"] == "succeeded": out["progress"] = 1.0
     return out
@@ -151,10 +152,14 @@ PROCS = {}
 def spawn(j, text, resume=False):
     job = jread(j, "job.json"); req = job["request"]; log = open(os.path.join(jdir(j), "runner.jsonl"), "a")
     env = dict(os.environ, DOCGEN_JOB_ID=j, DOCGEN_REQUEST_ID=req["request_id"], PYTHONPATH=os.environ.get("DOCGEN_APP", "/app") + ":" + os.environ.get("PYTHONPATH", ""))
+    env.setdefault("ENABLE_PROMPT_CACHING_1H", "1")      # long commands outlast the 5-minute cache; each expiry rewrites the whole context
+    env.setdefault("BASH_DEFAULT_TIMEOUT_MS", "600000")    # `docgen wait`, `factcheck` and `queue` block for minutes in one Bash call; the default is 2
+    env.setdefault("BASH_MAX_OUTPUT_LENGTH", "15000")      # a long command output enters the session once and is resent on every later turn
     if RUNNER == "mock":
         cmd = [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "mock_runner.py"), "resume" if resume else "start", text]
     else:
-        cmd = ["claude", "-p", text, "--model", req["model"], "--output-format", "stream-json", "--verbose", "--max-turns", str(req["limits"]["max_llm_turns"])] + shlex.split(CLAUDE_FLAGS)
+        cmd = ["claude", "-p", text, "--model", req["model"], "--output-format", "stream-json", "--verbose", "--max-turns", str(req["limits"]["max_llm_turns"]),
+               "--tools", llm.PRODUCER_TOOLS] + llm.COMMON + shlex.split(CLAUDE_FLAGS)
         sid = jread(j, "state.json", {}).get("session_id")
         if resume and sid: cmd += ["--resume", sid]
     p = subprocess.Popen(cmd, cwd=jdir(j), stdout=log, stderr=subprocess.STDOUT, env=env, start_new_session=True)
@@ -176,9 +181,16 @@ def finish(j, state, error=None):
 def watch(j):
     """Follow status.json for one run of the runner process: turn changes into events, send heartbeats, decide the outcome."""
     p = PROCS[j]; sp = os.path.join(jdir(j), "status.json"); last = S.read(sp); last_beat = time.time()
-    deadline = jread(j, "job.json")["deadline"]
+    job = jread(j, "job.json"); deadline = job["deadline"]
+    meter = llm.Meter(jdir(j)); cap = llm.max_job_usd(job["request"].get("long", {}).get("format", "explainer"))
     while True:
         rc = p.poll(); a = S.read(sp)
+        try: spent = meter.poll()["usd"]
+        except Exception: spent = 0.0                     # the ledger must never fail the job
+        if cap and spent > cap:
+            kill(j); finish(j, "failed", {"code": "llm_budget_exceeded", "stage": a.get("stage"), "retryable": False,
+                                         "message": f"Claude spend estimate ${spent:.2f} passed the ${cap:g} cap for one job; stopped. llm.by_step in the status shows where it went."})
+            return
         if a and a != last:
             if a.get("stage") != last.get("stage"):
                 if last.get("stage"): emit(j, "stage.completed")
@@ -193,6 +205,8 @@ def watch(j):
             kill(j); finish(j, "failed", {"code": "timeout", "stage": a.get("stage"), "message": "max_runtime_minutes exceeded", "retryable": True}); return
         if time.time() - last_beat >= HEARTBEAT: emit(j, "job.heartbeat", bump=False); last_beat = time.time()
         time.sleep(1)
+    try: meter.poll()                                     # the run's result line: the exact figure
+    except Exception: pass
     with LOCK:
         st = jread(j, "state.json", {}); sid = session_id(j)
         if sid: st["session_id"] = sid; jwrite(j, "state.json", st)
@@ -265,7 +279,7 @@ def health(_=Depends(auth)):
 def create(req: Req, _=Depends(auth)):
     with LOCK:
         idx = index()
-        if req.request_id in idx:
+        if req.request_id in idx and jread(idx[req.request_id], "state.json", {}).get("state") != "failed":   # a failed request may start again
             j = idx[req.request_id]; return JSONResponse({"job_id": j, "request_id": req.request_id, "state": public(j)["state"], "status_url": f"/v1/documentaries/{j}"}, status_code=200)
         cur = current()
         if cur: raise HTTPException(409, {"code": "busy", "current_job_id": cur})
